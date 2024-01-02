@@ -1,0 +1,4 @@
+repository "NewGame@heyhobeach@cloud"
+  path "/"
+    br "/main"
+    co "/main"
