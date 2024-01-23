@@ -7,12 +7,50 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Player
+{
+    private Vector2 destination;
+    private float speed = 0.0f;
+    private Vector2 preVec= Vector2.zero;
+
+    public void SetDestination(Vector2 destination)//드래그 이후 벡터 계산이후 Set으로 설정함
+    {
+        this.destination = destination;
+    }
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public void SetpreVec(Vector2 preVec)//드래그 이후 벡터 계산이후 Set으로 설정함
+    {
+        this.preVec = preVec;
+    }
+    public Vector2 GetDestinaion()
+    {
+        return destination;
+    }
+    public Vector2 GetPreVec()
+    {
+        return preVec;
+    }
+
+
+    public float GetSpeed() 
+    {
+        return speed;
+    }
+}
+
+public class TestScript : MonoBehaviour
 {
     // Start is called before the first frame update
+    Player player = new Player();//player객체 생성
     private Vector2 position;
     private Rigidbody2D rg2D;
+    
 
+    
     private Vector2 startPos;//터시 시작시 x pos
     private Vector2 endPos;//터치 시작시 y pos
 
@@ -20,7 +58,8 @@ public class NewBehaviourScript : MonoBehaviour
 
     public float speed = 3f;// private로 수정하고 speed= tapPower와 speed=dragPower로 수정 가능하지 않을까
 
-    public float tapPower;
+    public const byte maxCollsion=2;
+    public byte collsitonCount = 0;//충돌 횟수 count변수 드래그시 초기화
     public float dragPower;
 
     public float scale = 0.5f;//중력
@@ -38,7 +77,9 @@ public class NewBehaviourScript : MonoBehaviour
 
     public bool isStart = true;
 
-    public bool touchStart = true;
+    public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단
+
+    private float touchTime;
 
 
     //private float touchPosx;
@@ -48,23 +89,25 @@ public class NewBehaviourScript : MonoBehaviour
     private float touchStartTime;
     private Vector2 preVelocity;
 
-    private bool isWallHit = false;
+    public bool isWallHit = false;//테스트후 private로 수정 필요
 
     public int reflectCnt;
 
-    public bool canTouch = true;//추후 private로 수정 필요
+    public bool canTouch = true;//추후 private로 수정 필요 충돌과 cooltime계산후 터치 가능한 조건을 만듬
 
-    public bool uiTouched = false;
+    public bool uiTouched = false;//UI 터치 했는지 판단하는 부분
 
     public bool isDrag = false;
 
     public bool isStop = true;
 
+    private IEnumerator cooltimeCoroutine;
+
 
 
     void Start()
     {
-        //destination = new Vector2(-1.4f, 4);
+        //destination = new Vector2(-1.4f, 4);;
         transform.position = new Vector2(0, -4.5f);
         position = transform.position;
 
@@ -73,7 +116,9 @@ public class NewBehaviourScript : MonoBehaviour
         transform.localScale = new Vector2(0.5f, 0.5f);// 해상도 비율에 맞게 크기 조절 근데 캔버스가 있음
 
         //touchPosx = transform.localPosition.x;
-        screenYpos = CameraSet.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
+        //screenYpos = CameraSet.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
+        cooltimeCoroutine = DragCooltime();
+
 
         //Debug.Log(string.Format("화면 1/3아래:{0} 화면 2/3위 :{1} 화면 꼭대기{2}", -screenYpos, screenYpos,CameraSet.Top.y));
         Debug.Log(CameraSet.Top.y);
@@ -81,47 +126,39 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void Awake()
     {
-
+        
     }
 
 
     private void FixedUpdate()
     {
-        if (isStop)
-        {
-            //Debug.Log("Stop");
-            HoldPossion();
-        }
-        else
-        {
-            Move();
-
-        }
+        //Debug.Log(player.GetSpeed());
+        Move2(player.GetDestinaion());
+        //Debug.Log(player.GetDestinaion());
 
 
     }
     // Update is called once per frame
     void Update()
     {
-        position = rg2D.velocity;// 이 부분의 필요는?
-        //Debug.Log("Update");
-        OnTouchEvent();
-        //transform.Translate(destination * speed * Time.deltaTime, Space.World);// 이 부분은 필요가 없는것같음
-        /*if (touchStart && transform.position.y >= screenYpos)// 해당 부분 필요없는것 같아 주석처리
+        //player.SetDestination(player.GetDestinaion());
+        if (!canTouch)//터치 못 할때 코루틴 호출
         {
-            //isWallHit = true;
+            StartCoroutine(cooltimeCoroutine);
         }
-        if(!canTouch&&transform.position.y>screenYpos)
+        
+        if (isStop)//isDrag라고 그냥 임의로 변수 설정한것 ,true일때
         {
-            //canTouch = true;
-        }*/
-        if (grabCoolTime > 1)
-        {
-            grabCoolTime = 0;
-            rg2D.gravityScale = setGravityScale();
-            //isWallHit = true;//두 변수가 중복 되는것같음
-            canTouch = true;
+            //player.SetDestination(HoldPossion());
         }
+        else
+        {
+            //player.SetDestination(player.GetDestinaion());
+            
+        //    //player.SetDestination(player.GetDestinaion());
+        }//여기 까지 그냥 테스트를 위해 player객체에서 정보 받아 움직이는지 확인을 위한 코드
+
+        OnTouchEvent();//터치로 인한 값을 player에 셋팅함
 
     }
 
@@ -132,16 +169,33 @@ public class NewBehaviourScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
-        Debug.Log("collision");
+        //Debug.Log("collision");
         Debug.Log(collision.gameObject.name);
         //Vector2 inDirection = GetComponent<Rigidbody2D>().velocity;
-        destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
+        //destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
+        //player.SetDestination(destination);
+        //player.SetDestination(Vector2.zero);
+        //StickWall();
 
         if (collision.gameObject.tag == "border")//좌 우 경계에 닿을경우
         {
-            isWallHit = true;//벽에 충돌할경우 해당 라인이 있어야 만약 다시 터치 가능한 범위? 안에서 충돌일어나 다시 잡을경우를 위한것
+            if (collsitonCount < maxCollsion-1)
+            {
+                collsitonCount++;
+            }
+            else
+            {
+                player.SetDestination(HoldPossion());
+                Debug.Log("충돌 끝");
+                return;
+            }
+            
+            isWallHit = true ;//벽에 충돌할경우 해당 라인이 있어야 만약 다시 터치 가능한 범위? 안에서 충돌일어나 다시 잡을경우를 위한것
+            destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
+            player.SetDestination(destination);
             canTouch = true;
-            speed /= 2;//벽에 충돌시 속도 감속
+            StopCoroutine(cooltimeCoroutine);
+            //speed /= 2;//벽에 충돌시 속도 감속
             switch (collision.gameObject.name)
             {
                 case "top"://해당 부분은 아마 쓸 일은 없을거같긴함
@@ -150,31 +204,26 @@ public class NewBehaviourScript : MonoBehaviour
                 case "bottom":
                     isTouchBottom = true;
                     isStop = true;
-                    //isTouchLeft = false;
-                    //isTouchRight = false;
+                    player.SetDestination(HoldPossion());
 
                     break;
                 case "left":
                     //rg2D.gravityScale = setGravityScale();//여기 부분에서 생기는 문제 중력이 생겨버려서
                     rg2D.gravityScale = scale;
-                    //isTouchLeft = true;
-                    //isTouchRight = false;
 
                     break;
                 case "right":
                     //rg2D.gravityScale = setGravityScale();
                     rg2D.gravityScale = scale;
-                    //isTouchRight = true;
-                    //isTouchLeft = false;
                     break;
 
             }
         }
     }
-    private void OnTouchEvent()//이동 이벤트
+    private void OnTouchEvent()//터치를 통한 조작을 판단
     {
 
-        if (Input.touchCount == 1)//Input.touchCount > 0
+        if (Input.touchCount > 0)//터치가 될경우
         {
             if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) != false)//Ui부분 터치판단
             {
@@ -183,60 +232,23 @@ public class NewBehaviourScript : MonoBehaviour
                 return;
             }
             else//ui가아님
-            {
+            { 
                 Touch touch = Input.GetTouch(0);//처음 터치된 정보
                 grabTime += Time.deltaTime;
 
-                if (touch.phase == TouchPhase.Began)
+                if (touch.phase == TouchPhase.Began && canTouch)
                 {
                     Debug.Log("Began1");
-                    endPos = Camera.main.ScreenToWorldPoint(touch.position);
-                    if (!canTouch)//HandleTouchBeagan안에 조건이있음
-                    {
-                        isStop = false;//움직여야함
-                    }
-                    else
-                    {
-                        HandleTouchBegan(touch);//움직이면 안됨
-
-                    }
+                    HandleTouchBegan(touch);//움직이면 안됨
                 }
                 else if (touch.phase == TouchPhase.Ended && canTouch)
                 {
-                    isStop = false;//움직여야함
                     Debug.Log("End2");
                     HandleTouchEnd(touch);
                 }
-                //else if (touch.phase == TouchPhase.Moved)//두개 합칠수있지 않을까
-                //{
-                //Debug.Log("Move");
-                //HandleTouchMove(touch);
-                //}
-                else if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)//홀딩이거나 드래그시
-                {
-                    //Debug.Log("홀드 액션 함수");
-                    if (grabTime > 1 || !canTouch)
-                    {
-                        //rg2D.velocity = preVelocity;
-                        isStop = false;
-                        //Move();
-                        return;
-                    }
-                    //나머지는 움직이면 안 될거같은데
-                    //else{isStop=true};
-
-                }
-
-                //}
-                else//위 일때
+                else if (touch.phase == TouchPhase.Stationary && canTouch || touch.phase == TouchPhase.Moved && canTouch)//홀딩이거나 드래그시, canTouch를 조건에 넣어야함
                 {
 
-                    //Move();
-                    isStop = false;
-                    Debug.Log("destination" + destination);
-                    //transform.Translate(destination * speed * Time.deltaTime, Space.World);//이동 부분, destination계산필요 날리는 부분 Move함수로 교체
-                    //Debug.Log("움직이는중 터치 발생");
-                    //return;
                 }
 
 
@@ -249,21 +261,34 @@ public class NewBehaviourScript : MonoBehaviour
             if (!isTouchBottom)//바닥에 닿지 않았을때 계산해야지 밑으로 내려가려는 힘이 없음
             {
                 isStop = false;
-                Move();
             }
-            else//바닥이 터치 되었을때
+            else//바닥이 터치 되었을때 collision에서 holdPossion을 하면 되지 않을까
             {
-                //transform.translate(vector2.zero);
-                transform.position = transform.position;
+                                    
             }
         }
 
+    }
+
+    public void Move2(Vector2 destination)
+    {
+        rg2D.gravityScale = 0.0f;
+        rg2D.velocity = destination.normalized * speed * Time.deltaTime;//rigidbody를 이용한 이동 speed 100 
+        //transform.Translate(destination * speed * Time.deltaTime);
+    }
+
+    IEnumerator DragCooltime()
+    {
+        yield return new WaitForSeconds(1.0f);//1초가 지났다면
+        Debug.Log("코루틴 실행");
+        canTouch = true;
     }
     private void Move()//destination값을 전달 해준다면?
     {
 
         grabCoolTime += Time.deltaTime;//쿨타임 더하기
-        transform.Translate(destination * speed * Time.deltaTime);//이동 부분, destination계산필요 날리는 부분
+        //transform.Translate(destination * speed * Time.deltaTime);//이동 부분, destination계산필요 날리는 부분
+        //rg2D.velocity=destination * speed * Time.deltaTime
         return;
     }
 
@@ -274,20 +299,15 @@ public class NewBehaviourScript : MonoBehaviour
         isTouchBottom = false;
         if (canTouch)
         {
-            HoldPossion();
+            player.SetDestination(HoldPossion());
             isStop = true;
-        }
-        else
-        {
-            isStop = false;//움직여야함
-            //Move();
         }
 
         startPos = Camera.main.ScreenToWorldPoint(touch.position);
         Debug.Log("시작 :" + startPos);
     }
 
-    private void Shoot()
+    /*private void Shoot()//현재 사용하지 않음
     {
         Debug.Log("shoot");
         startPos = Vector2.zero;
@@ -298,14 +318,14 @@ public class NewBehaviourScript : MonoBehaviour
         grabCoolTime += Time.deltaTime;//쿨타임 더하기
         //Debug.Log(string.Format("도형 위치 {0} 화면 끝{1} 목표 지점 {2}", startPos, 5, endPos));
         speed = 5;
-        destination = (endPos - startPos).normalized;//여기를 지우면 그냥 떨어짐
+        destination = new Vecotor2(0.0,1.0f).normalized;//여기를 지우면 그냥 떨어짐
         Debug.Log("shoot" + destination);
         //startPos = Vector2.zero;
         //endPos = Vector2.zero;
         rg2D.gravityScale = setGravityScale();
         return;
 
-    }
+    }*/
 
     private void HandleTouchEnd(Touch touch)
     {
@@ -319,16 +339,14 @@ public class NewBehaviourScript : MonoBehaviour
         {
             //if (isDrag)
             //{
-            //touchTime = Time.time - touchStartTime;
+            touchTime = Time.time - touchStartTime;
             Debug.Log(string.Format("touchTime :{0}", grabTime));
             canTouch = false;
             //isWallHit = false;//드래그가 끝나는 시점에서 false로 전환해 잡지 못하게 하기위함
             touchStart = false;
             isTouchBottom = false;
             isStart = false;
-            //grabCoolTime = 0;//쿨타임
-            //canTouch = true;
-            speed = 3f;//여기 까지 날리기 위한 셋팅이니까 수정
+            speed = 100f;//여기 까지 날리기 위한 셋팅이니까 수정
                        //rg2D.gravityScale = setGravityScale();
 
             endPos = Camera.main.ScreenToWorldPoint(touch.position);
@@ -340,8 +358,12 @@ public class NewBehaviourScript : MonoBehaviour
             if (posDistance < 0.2)//단순 터치 터치를 거리로 판단 
             {
                 Debug.Log("단순 터치");
-                Shoot();
-                isStop = false;
+                //Shoot();
+                //isStop = false;
+                Debug.Log("플레이어 목적지 :"+player.GetPreVec());
+                destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
+                Debug.Log(destination);
+                //player.SetDestination(destination);
 
                 /*rg2D.gravityScale = setGravityScale(); //Shoot함수로 이동
                 touchStart = true;//단순 터치기에 
@@ -355,6 +377,9 @@ public class NewBehaviourScript : MonoBehaviour
             {
                 destination = (endPos - startPos).normalized;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
                 destination = VectorCorrection(destination);
+                player.SetDestination(destination);
+                player.SetpreVec(destination);//이동 벡터 저장
+                collsitonCount = 0;
                 Debug.Log("드래그 벡터" + destination);
             }
             isDrag = false;
@@ -363,7 +388,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     }
 
-    private void HandleTouchMove(Touch touch)
+    /*private void HandleTouchMove(Touch touch)
     {
         Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);//이렇게 해야지 기기마다 화면의 좌표로 설정된다.
         isDrag = true;//드래그 확인을 위함
@@ -387,18 +412,18 @@ public class NewBehaviourScript : MonoBehaviour
             //isthrow = true;
             //Debug.Log("드래그 :" + pos);
         }
-    }
+    }*/
 
-    private void HoldPossion()//위치 위치 고정시키는 함수
+    private Vector2 HoldPossion()//위치 위치 고정시키는 함수
     {
         rg2D.velocity = Vector2.zero;
-        rg2D.gravityScale = 0.0f;
+        rg2D.gravityScale = 2f;
+
 
         transform.Translate(Vector2.zero);//위치 고정
         transform.position = transform.position;
-        return;
+        return Vector2.zero;
     }
-
     private Vector2 VectorCorrection(Vector2 pos)
     {
         float correctino_posy = 0.0f;
@@ -413,6 +438,21 @@ public class NewBehaviourScript : MonoBehaviour
         }
         Vector2 vector_correction = new Vector2(pos.x, correctino_posy);
         return vector_correction;
+    }
+    
+    private void StickWall()//벽에 붙어서 미끄러지는 함수
+    {
+        float time = Time.time;
+        if (time > 0.2)
+        {
+            rg2D.gravityScale += 0.01f;
+        }
+        else
+        {
+            rg2D.velocity= Vector2.zero;
+            rg2D.gravityScale = 0.0f;
+        }
+        
     }
 
 

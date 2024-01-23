@@ -22,10 +22,17 @@ public class CameraSet : MonoBehaviour
         Debug.Log(string.Format("1/3 = {0}", Bottom.y - cameraZpos * ratio));
         //Debug.Log(cameraZpos);
     }
-    
+
+    public void SetScale()//해상도 설정은 camera에서
+    {
+        //Debug.Log(Screen.height);
+        //Debug.Log(Screen.width);
+    }
+
     void Awake()
     {
-        Screen.SetResolution(2340, 1080, true);
+        //Screen.SetResolution(1848, 2960, true);
+        Screen.SetResolution(924, 1480 , true);
     }
 
     // Update is called once per frame
