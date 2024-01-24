@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class CameraSet : MonoBehaviour
 {
-    public static float cameraZpos;
+    public  float cameraZpos;//전부 스테틱으로 할 필요없었고 그냥 카메라 인스턴스 만들어서 가능 골드메탈 무한배경19:28초 참고
     public float ratio=0.33f;
 
-    public static float limitPos;
-    public static Vector2 Top;
+    public  float limitPos;
+    public  Vector2 Top;
+    public  static CameraSet cameraInstance;
+    public TestScript player;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,12 +34,18 @@ public class CameraSet : MonoBehaviour
     void Awake()
     {
         //Screen.SetResolution(1848, 2960, true);
+        cameraInstance = this;
         Screen.SetResolution(924, 1480 , true);
+    }
+    private void FixedUpdate()
+    {
+        //if()
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(string.Format("플레이어 위치 :{0} 카메라 위치 :{1}", player.transform.position, transform.position));
+        Debug.Log(string.Format("카메라 뷰포트 {0}", Camera.main.WorldToViewportPoint(player.transform.position)));
     }
 }

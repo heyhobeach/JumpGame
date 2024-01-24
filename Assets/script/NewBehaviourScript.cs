@@ -73,10 +73,10 @@ public class NewBehaviourScript : MonoBehaviour
         transform.localScale = new Vector2(0.5f, 0.5f);// 해상도 비율에 맞게 크기 조절 근데 캔버스가 있음
 
         //touchPosx = transform.localPosition.x;
-        screenYpos = CameraSet.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
+        screenYpos = CameraSet.cameraInstance.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
 
         //Debug.Log(string.Format("화면 1/3아래:{0} 화면 2/3위 :{1} 화면 꼭대기{2}", -screenYpos, screenYpos,CameraSet.Top.y));
-        Debug.Log(CameraSet.Top.y);
+        Debug.Log(CameraSet.cameraInstance.Top.y);
     }
 
     private void Awake()

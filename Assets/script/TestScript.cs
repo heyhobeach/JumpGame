@@ -9,26 +9,11 @@ using UnityEngine.UIElements;
 
 public class Player
 {
-<<<<<<< HEAD
     private Vector2 destination;
     private float speed = 0.0f;
     private Vector2 preVec= Vector2.zero;
 
     public void SetDestination(Vector2 destination)//µÂ∑°±◊ ¿Ã»ƒ ∫§≈Õ ∞ËªÍ¿Ã»ƒ Set¿∏∑Œ º≥¡§«‘
-=======
-    private Vector2 destination = Vector2.zero;
-    private float speed = 0.0f;
-    Transform transform;
-    Rigidbody2D rg2D;
-
-    public void Move(Vector2 destination)
-    {
-        rg2D.velocity = destination.normalized * speed * Time.deltaTime;//rigidbodyÎ•º Ïù¥Ïö©Ìïú Ïù¥Îèô
-        //transform.Translate(destination*speed*Time.deltaTime);
-    }
-
-    public void SetDestination(Vector2 destination)
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     {
         this.destination = destination;
     }
@@ -36,35 +21,20 @@ public class Player
     {
         this.speed = speed;
     }
-<<<<<<< HEAD
-
     public void SetpreVec(Vector2 preVec)//µÂ∑°±◊ ¿Ã»ƒ ∫§≈Õ ∞ËªÍ¿Ã»ƒ Set¿∏∑Œ º≥¡§«‘
     {
         this.preVec = preVec;
-=======
-    private void HoldPossion()//ÏúÑÏπò ÏúÑÏπò Í≥†Ï†ïÏãúÌÇ§Îäî Ìï®Ïàò
-    {
-        rg2D.velocity = Vector2.zero;
-        rg2D.gravityScale = 0.0f;
-
-        //transform.Translate(Vector2.zero);//ÏúÑÏπò Í≥†Ï†ï
-        transform.position = transform.position;
-        return;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     }
     public Vector2 GetDestinaion()
     {
         return destination;
     }
-<<<<<<< HEAD
     public Vector2 GetPreVec()
     {
         return preVec;
     }
 
 
-=======
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     public float GetSpeed() 
     {
         return speed;
@@ -74,7 +44,6 @@ public class Player
 public class TestScript : MonoBehaviour
 {
     // Start is called before the first frame update
-<<<<<<< HEAD
     Player player = new Player();//player∞¥√º ª˝º∫
     private Vector2 position;
     private Rigidbody2D rg2D;
@@ -98,28 +67,6 @@ public class TestScript : MonoBehaviour
     private float grabCoolTime;//±◊∑¶ ƒ≈∏¿” √º≈©
 
     //public bool isTouchTop = false;//isTouchBottom¿ª ¡¶ø‹«— ≥™∏”¡ˆ ∫ØºˆµÈ¿∫ æ» æ≤∞Ì¿÷¿Ω
-=======
-    Player player = new Player();//playerÍ∞ùÏ≤¥ ÏÉùÏÑ±
-    private Vector2 position;
-    private Rigidbody2D rg2D;
-    
-    private Vector2 startPos;//ÌÑ∞Ïãú ÏãúÏûëÏãú x pos
-    private Vector2 endPos;//ÌÑ∞Ïπò ÏãúÏûëÏãú y pos
-
-    private Vector2 destination;//Î™©Ï†ÅÏßÄ
-
-    public float speed = 3f;// privateÎ°ú ÏàòÏ†ïÌïòÍ≥† speed= tapPowerÏôÄ speed=dragPowerÎ°ú ÏàòÏ†ï Í∞ÄÎä•ÌïòÏßÄ ÏïäÏùÑÍπå
-
-    public float tapPower;
-    public float dragPower;
-
-    public float scale = 0.5f;//Ï§ëÎ†•
-
-    private float grabTime;//Í∑∏Îû© ÏßÄÏÜçÏãúÍ∞Ñ
-    private float grabCoolTime;//Í∑∏Îû© Ïø®ÌÉÄÏûÑ Ï≤¥ÌÅ¨
-
-    //public bool isTouchTop = false;//isTouchBottomÏùÑ Ï†úÏô∏Ìïú ÎÇòÎ®∏ÏßÄ Î≥ÄÏàòÎì§ÏùÄ Ïïà Ïì∞Í≥†ÏûàÏùå
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     public bool isTouchBottom = false;
     //public bool isTouchLeft = false;
     //public bool isTouchRight = false;
@@ -129,13 +76,9 @@ public class TestScript : MonoBehaviour
 
     public bool isStart = true;
 
-<<<<<<< HEAD
     public bool touchStart = true;//º’¿ª ∂º∞Ì ¡∂¿€«œ¥¬∞«¡ˆ æ∆¥—¡ˆ ∆«¥‹
 
     private float touchTime;
-=======
-    public bool touchStart = true;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
 
 
     //private float touchPosx;
@@ -145,7 +88,6 @@ public class TestScript : MonoBehaviour
     private float touchStartTime;
     private Vector2 preVelocity;
 
-<<<<<<< HEAD
     public bool isWallHit = false;//≈◊Ω∫∆Æ»ƒ private∑Œ ºˆ¡§ « ø‰
 
     public int reflectCnt;
@@ -153,41 +95,22 @@ public class TestScript : MonoBehaviour
     public bool canTouch = true;//√ﬂ»ƒ private∑Œ ºˆ¡§ « ø‰ √Êµπ∞˙ cooltime∞ËªÍ»ƒ ≈Õƒ° ∞°¥…«— ¡∂∞«¿ª ∏∏µÎ
 
     public bool uiTouched = false;//UI ≈Õƒ° «ﬂ¥¬¡ˆ ∆«¥‹«œ¥¬ ∫Œ∫–
-=======
-    private bool isWallHit = false;
-
-    public int reflectCnt;
-
-    public bool canTouch = true;//Ï∂îÌõÑ privateÎ°ú ÏàòÏ†ï ÌïÑÏöî
-
-    public bool uiTouched = false;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
 
     public bool isDrag = false;
 
     public bool isStop = true;
 
-<<<<<<< HEAD
     private IEnumerator cooltimeCoroutine;
-=======
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
-
 
 
     void Start()
     {
-<<<<<<< HEAD
         //destination = new Vector2(-1.4f, 4);;
-=======
-        //destination = new Vector2(-1.4f, 4);
-       
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         transform.position = new Vector2(0, -4.5f);
         position = transform.position;
 
         rg2D = GetComponent<Rigidbody2D>();
         rg2D.gravityScale = 0.2f;
-<<<<<<< HEAD
         transform.localScale = new Vector2(0.5f, 0.5f);// «ÿªÛµµ ∫Ò¿≤ø° ∏¬∞‘ ≈©±‚ ¡∂¿˝ ±Ÿµ• ƒµπˆΩ∫∞° ¿÷¿Ω
 
         //touchPosx = transform.localPosition.x;
@@ -196,54 +119,27 @@ public class TestScript : MonoBehaviour
 
 
         //Debug.Log(string.Format("»≠∏È 1/3æ∆∑°:{0} »≠∏È 2/3¿ß :{1} »≠∏È ≤¿¥Î±‚{2}", -screenYpos, screenYpos,CameraSet.Top.y));
-=======
-        transform.localScale = new Vector2(0.5f, 0.5f);// Ìï¥ÏÉÅÎèÑ ÎπÑÏú®Ïóê ÎßûÍ≤å ÌÅ¨Í∏∞ Ï°∞Ï†à Í∑ºÎç∞ Ï∫îÎ≤ÑÏä§Í∞Ä ÏûàÏùå
-
-        //touchPosx = transform.localPosition.x;
-        screenYpos = CameraSet.limitPos;//screenYposÎ°ú ÍµêÏ≤¥ ÌïòÎ©¥ Îê® Ìï¥Îãπ ÏúÑÏπòÎäî Ï∫êÎ¶≠ÌÑ∞Ïùò ÏúÑÏπòÍ∞Ä Ìï≠ÏÉÅ Ïù¥ÏØ§Ïóê ÏûàÏùÑÍ±∞ÏûÑ Ïù¥Í±∞Î≥¥Îã§ Ï∫êÎ¶≠ÌÑ∞Í∞Ä Îçî ÏúÑÏóêÏûàÎã§Î©¥ Ïπ¥Î©îÎùºÍ∞Ä ÏõÄÏßÅÏûÑ
-
-        //Debug.Log(string.Format("ÌôîÎ©¥ 1/3ÏïÑÎûò:{0} ÌôîÎ©¥ 2/3ÏúÑ :{1} ÌôîÎ©¥ Íº≠ÎåÄÍ∏∞{2}", -screenYpos, screenYpos,CameraSet.Top.y));
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
-        Debug.Log(CameraSet.Top.y);
+        Debug.Log(CameraSet.cameraInstance.Top.y);
     }
 
     private void Awake()
     {
-<<<<<<< HEAD
         
-=======
-
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     }
 
 
     private void FixedUpdate()
     {
-<<<<<<< HEAD
         //Debug.Log(player.GetSpeed());
-        Move2(player.GetDestinaion());
+        //Move2(player.GetDestinaion());
+        Move2(Vector2.up * 2 * Time.deltaTime);
         //Debug.Log(player.GetDestinaion());
-=======
-        Debug.Log(player.GetSpeed());
-        if (isStop)
-        {
-            //Debug.Log("Stop");
-
-            HoldPossion();
-        }
-        else
-        {
-            Move();
-
-        }
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
 
 
     }
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
         //player.SetDestination(player.GetDestinaion());
         if (!canTouch)//≈Õƒ° ∏¯ «“∂ß ƒ⁄∑Á∆æ »£√‚
         {
@@ -257,46 +153,19 @@ public class TestScript : MonoBehaviour
         else
         {
             //player.SetDestination(player.GetDestinaion());
-            
+                
         //    //player.SetDestination(player.GetDestinaion());
         }//ø©±‚ ±Ó¡ˆ ±◊≥… ≈◊Ω∫∆Æ∏¶ ¿ß«ÿ player∞¥√ºø°º≠ ¡§∫∏ πﬁæ∆ øÚ¡˜¿Ã¥¬¡ˆ »Æ¿Œ¿ª ¿ß«— ƒ⁄µÂ
 
-        OnTouchEvent();//≈Õƒ°∑Œ ¿Œ«— ∞™¿ª playerø° º¬∆√«‘
+        //OnTouchEvent();//≈Õƒ°∑Œ ¿Œ«— ∞™¿ª playerø° º¬∆√«‘
 
     }
 
     public float setGravityScale()//¿Ã «‘ºˆ∞° ±ª¿Ã « ø‰«“±Ó
-=======
-        //player.SetSpeed(speed++);
-        position = rg2D.velocity;// Ïù¥ Î∂ÄÎ∂ÑÏùò ÌïÑÏöîÎäî?
-        //Debug.Log("Update");
-        //OnTouchEvent();
-        //transform.Translate(destination * speed * Time.deltaTime, Space.World);// Ïù¥ Î∂ÄÎ∂ÑÏùÄ ÌïÑÏöîÍ∞Ä ÏóÜÎäîÍ≤ÉÍ∞ôÏùå
-        /*if (touchStart && transform.position.y >= screenYpos)// Ìï¥Îãπ Î∂ÄÎ∂Ñ ÌïÑÏöîÏóÜÎäîÍ≤É Í∞ôÏïÑ Ï£ºÏÑùÏ≤òÎ¶¨
-        {
-            //isWallHit = true;
-        }
-        if(!canTouch&&transform.position.y>screenYpos)
-        {
-            //canTouch = true;
-        }*/
-        if (grabCoolTime > 1)
-        {
-            grabCoolTime = 0;
-            rg2D.gravityScale = setGravityScale();
-            //isWallHit = true;//Îëê Î≥ÄÏàòÍ∞Ä Ï§ëÎ≥µ ÎêòÎäîÍ≤ÉÍ∞ôÏùå
-            canTouch = true;
-        }
-
-    }
-
-    public float setGravityScale()//Ïù¥ Ìï®ÏàòÍ∞Ä Íµ≥Ïù¥ ÌïÑÏöîÌï†Íπå
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     {
         return scale;
     }
 
-<<<<<<< HEAD
     private void OnCollisionEnter2D(Collision2D collision)//√ÊµπΩ√ πﬂª˝
     {
         //Debug.Log("collision");
@@ -315,9 +184,10 @@ public class TestScript : MonoBehaviour
             }
             else
             {
-                player.SetDestination(HoldPossion());
+                //player.SetDestination(HoldPossion());
+                rg2D.gravityScale = setGravityScale();
                 Debug.Log("√Êµπ ≥°");
-                return;
+                //return;
             }
             
             isWallHit = true ;//∫Æø° √Êµπ«“∞ÊøÏ «ÿ¥Á ∂Û¿Œ¿Ã ¿÷æÓæﬂ ∏∏æ‡ ¥ŸΩ√ ≈Õƒ° ∞°¥…«— π¸¿ß? æ»ø°º≠ √Êµπ¿œæÓ≥™ ¥ŸΩ√ ¿‚¿ª∞ÊøÏ∏¶ ¿ß«—∞Õ
@@ -329,82 +199,38 @@ public class TestScript : MonoBehaviour
             switch (collision.gameObject.name)
             {
                 case "top"://«ÿ¥Á ∫Œ∫–¿∫ æ∆∏∂ æµ ¿œ¿∫ æ¯¿ª∞≈∞∞±‰«‘
-=======
-    private void OnCollisionEnter2D(Collision2D collision)//Ï∂©ÎèåÏãú Î∞úÏÉù
-    {
-        Debug.Log("collision");
-        Debug.Log(collision.gameObject.name);
-        //Vector2 inDirection = GetComponent<Rigidbody2D>().velocity;
-        destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//Ï∂©ÎèåÏãú Ï†ÑÎ∞òÏÇ¨Î°ú Î≤°ÌÑ∞ Î∞©Ìñ• ÏàòÏ†ï
-
-        if (collision.gameObject.tag == "border")//Ï¢å Ïö∞ Í≤ΩÍ≥ÑÏóê ÎãøÏùÑÍ≤ΩÏö∞
-        {
-            isWallHit = true;//Î≤ΩÏóê Ï∂©ÎèåÌï†Í≤ΩÏö∞ Ìï¥Îãπ ÎùºÏù∏Ïù¥ ÏûàÏñ¥Ïïº ÎßåÏïΩ Îã§Ïãú ÌÑ∞Ïπò Í∞ÄÎä•Ìïú Î≤îÏúÑ? ÏïàÏóêÏÑú Ï∂©ÎèåÏùºÏñ¥ÎÇò Îã§Ïãú Ïû°ÏùÑÍ≤ΩÏö∞Î•º ÏúÑÌïúÍ≤É
-            canTouch = true;
-            speed /= 2;//Î≤ΩÏóê Ï∂©ÎèåÏãú ÏÜçÎèÑ Í∞êÏÜç
-            switch (collision.gameObject.name)
-            {
-                case "top"://Ìï¥Îãπ Î∂ÄÎ∂ÑÏùÄ ÏïÑÎßà Ïì∏ ÏùºÏùÄ ÏóÜÏùÑÍ±∞Í∞ôÍ∏¥Ìï®
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
                     //isTouchTop = true;
                     break;
                 case "bottom":
                     isTouchBottom = true;
                     isStop = true;
-<<<<<<< HEAD
                     player.SetDestination(HoldPossion());
 
                     break;
                 case "left":
                     //rg2D.gravityScale = setGravityScale();//ø©±‚ ∫Œ∫–ø°º≠ ª˝±‚¥¬ πÆ¡¶ ¡ﬂ∑¬¿Ã ª˝∞‹πˆ∑¡º≠
-                    rg2D.gravityScale = scale;
-=======
-                    //isTouchLeft = false;
-                    //isTouchRight = false;
-
-                    break;
-                case "left":
-                    //rg2D.gravityScale = setGravityScale();//Ïó¨Í∏∞ Î∂ÄÎ∂ÑÏóêÏÑú ÏÉùÍ∏∞Îäî Î¨∏Ï†ú Ï§ëÎ†•Ïù¥ ÏÉùÍ≤®Î≤ÑÎ†§ÏÑú
-                    rg2D.gravityScale = scale;
-                    //isTouchLeft = true;
-                    //isTouchRight = false;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
+                    //rg2D.gravityScale = scale;
 
                     break;
                 case "right":
                     //rg2D.gravityScale = setGravityScale();
-                    rg2D.gravityScale = scale;
-<<<<<<< HEAD
-=======
-                    //isTouchRight = true;
-                    //isTouchLeft = false;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
+                    //rg2D.gravityScale = scale;
                     break;
 
             }
         }
     }
-<<<<<<< HEAD
     private void OnTouchEvent()//≈Õƒ°∏¶ ≈Î«— ¡∂¿€¿ª ∆«¥‹
     {
 
         if (Input.touchCount > 0)//≈Õƒ°∞° µ…∞ÊøÏ
         {
             if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) != false)//Ui∫Œ∫– ≈Õƒ°∆«¥‹
-=======
-    private void OnTouchEvent()//Ïù¥Îèô Ïù¥Î≤§Ìä∏
-    {
-
-        if (Input.touchCount == 1)//Input.touchCount > 0
-        {
-            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) != false)//UiÎ∂ÄÎ∂Ñ ÌÑ∞ÏπòÌåêÎã®
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
             {
                 Debug.Log("UiTouch");
                 uiTouched = true;
                 return;
             }
-<<<<<<< HEAD
             else//ui∞°æ∆¥‘
             { 
                 Touch touch = Input.GetTouch(0);//√≥¿Ω ≈Õƒ°µ» ¡§∫∏
@@ -423,69 +249,11 @@ public class TestScript : MonoBehaviour
                 else if (touch.phase == TouchPhase.Stationary && canTouch || touch.phase == TouchPhase.Moved && canTouch)//»¶µ˘¿Ã∞≈≥™ µÂ∑°±◊Ω√, canTouch∏¶ ¡∂∞«ø° ≥÷æÓæﬂ«‘
                 {
 
-=======
-            else//uiÍ∞ÄÏïÑÎãò
-            {
-                Touch touch = Input.GetTouch(0);//Ï≤òÏùå ÌÑ∞ÏπòÎêú Ï†ïÎ≥¥
-                grabTime += Time.deltaTime;
-
-                if (touch.phase == TouchPhase.Began)
-                {
-                    Debug.Log("Began1");
-                    endPos = Camera.main.ScreenToWorldPoint(touch.position);
-                    if (!canTouch)//HandleTouchBeaganÏïàÏóê Ï°∞Í±¥Ïù¥ÏûàÏùå
-                    {
-                        isStop = false;//ÏõÄÏßÅÏó¨ÏïºÌï®
-                    }
-                    else
-                    {
-                        HandleTouchBegan(touch);//ÏõÄÏßÅÏù¥Î©¥ ÏïàÎê®
-
-                    }
-                }
-                else if (touch.phase == TouchPhase.Ended && canTouch)
-                {
-                    isStop = false;//ÏõÄÏßÅÏó¨ÏïºÌï®
-                    Debug.Log("End2");
-                    HandleTouchEnd(touch);
-                }
-                //else if (touch.phase == TouchPhase.Moved)//ÎëêÍ∞ú Ìï©Ïπ†ÏàòÏûàÏßÄ ÏïäÏùÑÍπå
-                //{
-                //Debug.Log("Move");
-                //HandleTouchMove(touch);
-                //}
-                else if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)//ÌôÄÎî©Ïù¥Í±∞ÎÇò ÎìúÎûòÍ∑∏Ïãú
-                {
-                    //Debug.Log("ÌôÄÎìú Ïï°ÏÖò Ìï®Ïàò");
-                    if (grabTime > 1 || !canTouch)
-                    {
-                        //rg2D.velocity = preVelocity;
-                        isStop = false;
-                        //Move();
-                        return;
-                    }
-                    //ÎÇòÎ®∏ÏßÄÎäî ÏõÄÏßÅÏù¥Î©¥ Ïïà Îê†Í±∞Í∞ôÏùÄÎç∞
-                    //else{isStop=true};
-
-                }
-
-                //}
-                else//ÏúÑ ÏùºÎïå
-                {
-
-                    //Move();
-                    isStop = false;
-                    Debug.Log("destination" + destination);
-                    //transform.Translate(destination * speed * Time.deltaTime, Space.World);//Ïù¥Îèô Î∂ÄÎ∂Ñ, destinationÍ≥ÑÏÇ∞ÌïÑÏöî ÎÇ†Î¶¨Îäî Î∂ÄÎ∂Ñ MoveÌï®ÏàòÎ°ú ÍµêÏ≤¥
-                    //Debug.Log("ÏõÄÏßÅÏù¥ÎäîÏ§ë ÌÑ∞Ïπò Î∞úÏÉù");
-                    //return;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
                 }
 
 
             }
         }
-<<<<<<< HEAD
         else//≈Õƒ°∞° æ» µ«æ˙¿ª∂ß
         {
             grabTime = 0;//≈Õƒ°«œ∞Ì ¿÷¡ˆæ ¿ª∂ß 0¿∏∑Œ ∏∏µÈæÓæﬂ«‘
@@ -497,32 +265,16 @@ public class TestScript : MonoBehaviour
             else//πŸ¥⁄¿Ã ≈Õƒ° µ«æ˙¿ª∂ß collisionø°º≠ holdPossion¿ª «œ∏È µ«¡ˆ æ ¿ª±Ó
             {
                                     
-=======
-        else//ÌÑ∞ÏπòÍ∞Ä Ïïà ÎêòÏóàÏùÑÎïå
-        {
-            grabTime = 0;//ÌÑ∞ÏπòÌïòÍ≥† ÏûàÏßÄÏïäÏùÑÎïå 0ÏúºÎ°ú ÎßåÎì§Ïñ¥ÏïºÌï®
-            //grabCoolTime += Time.deltaTime;//Ïø®ÌÉÄÏûÑ ÎçîÌïòÍ∏∞
-            if (!isTouchBottom)//Î∞îÎã•Ïóê ÎãøÏßÄ ÏïäÏïòÏùÑÎïå Í≥ÑÏÇ∞Ìï¥ÏïºÏßÄ Î∞ëÏúºÎ°ú ÎÇ¥Î†§Í∞ÄÎ†§Îäî ÌûòÏù¥ ÏóÜÏùå
-            {
-                isStop = false;
-                Move();
-            }
-            else//Î∞îÎã•Ïù¥ ÌÑ∞Ïπò ÎêòÏóàÏùÑÎïå
-            {
-                //transform.translate(vector2.zero);
-                transform.position = transform.position;
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
             }
         }
 
     }
-<<<<<<< HEAD
 
     public void Move2(Vector2 destination)
     {
-        rg2D.gravityScale = 0.0f;
-        rg2D.velocity = destination.normalized * speed * Time.deltaTime;//rigidbody∏¶ ¿ÃøÎ«— ¿Ãµø speed 100 
-        //transform.Translate(destination * speed * Time.deltaTime);
+        //rg2D.gravityScale = 0f;
+        //rg2D.velocity = destination.normalized * speed * Time.deltaTime;//rigidbody∏¶ ¿ÃøÎ«— ¿Ãµø speed 100 
+        transform.Translate(destination.normalized * speed * Time.deltaTime);
     }
 
     IEnumerator DragCooltime()
@@ -537,13 +289,6 @@ public class TestScript : MonoBehaviour
         grabCoolTime += Time.deltaTime;//ƒ≈∏¿” ¥ı«œ±‚
         //transform.Translate(destination * speed * Time.deltaTime);//¿Ãµø ∫Œ∫–, destination∞ËªÍ« ø‰ ≥Ø∏Æ¥¬ ∫Œ∫–
         //rg2D.velocity=destination * speed * Time.deltaTime
-=======
-    private void Move()//destinationÍ∞íÏùÑ Ï†ÑÎã¨ Ìï¥Ï§ÄÎã§Î©¥?
-    {
-
-        grabCoolTime += Time.deltaTime;//Ïø®ÌÉÄÏûÑ ÎçîÌïòÍ∏∞
-        transform.Translate(destination * speed * Time.deltaTime);//Ïù¥Îèô Î∂ÄÎ∂Ñ, destinationÍ≥ÑÏÇ∞ÌïÑÏöî ÎÇ†Î¶¨Îäî Î∂ÄÎ∂Ñ
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         return;
     }
 
@@ -554,9 +299,8 @@ public class TestScript : MonoBehaviour
         isTouchBottom = false;
         if (canTouch)
         {
-<<<<<<< HEAD
-            player.SetDestination(HoldPossion());
-            isStop = true;
+            //player.SetDestination(HoldPossion());//¡÷ºÆ √≥∏Æ «‘¿∏∑Œº≠ ∏ÿ√ﬂ¥¬∞Õ æ¯¿Ã ∏∏µÁ¥Ÿ
+            //isStop = true;
         }
 
         startPos = Camera.main.ScreenToWorldPoint(touch.position);
@@ -575,40 +319,12 @@ public class TestScript : MonoBehaviour
         //Debug.Log(string.Format("µµ«¸ ¿ßƒ° {0} »≠∏È ≥°{1} ∏Ò«• ¡ˆ¡° {2}", startPos, 5, endPos));
         speed = 5;
         destination = new Vecotor2(0.0,1.0f).normalized;//ø©±‚∏¶ ¡ˆøÏ∏È ±◊≥… ∂≥æÓ¡¸
-=======
-            HoldPossion();
-            isStop = true;
-        }
-        else
-        {
-            isStop = false;//ÏõÄÏßÅÏó¨ÏïºÌï®
-            //Move();
-        }
-
-        startPos = Camera.main.ScreenToWorldPoint(touch.position);
-        Debug.Log("ÏãúÏûë :" + startPos);
-    }
-
-    private void Shoot()
-    {
-        Debug.Log("shoot");
-        startPos = Vector2.zero;
-        touchStart = true;//Îã®Ïàú ÌÑ∞ÏπòÍ∏∞Ïóê 
-        grabTime = 0;
-        canTouch = false;
-        endPos = new Vector2(startPos.x, 5);//ÌòπÏãú screenYposÏùò Í∞íÏù¥ -Í∞Ä ÎÇòÎäîÍ±¥Í∞Ä
-        grabCoolTime += Time.deltaTime;//Ïø®ÌÉÄÏûÑ ÎçîÌïòÍ∏∞
-        //Debug.Log(string.Format("ÎèÑÌòï ÏúÑÏπò {0} ÌôîÎ©¥ ÎÅù{1} Î™©Ìëú ÏßÄÏ†ê {2}", startPos, 5, endPos));
-        speed = 5;
-        destination = (endPos - startPos).normalized;//Ïó¨Í∏∞Î•º ÏßÄÏö∞Î©¥ Í∑∏ÎÉ• Îñ®Ïñ¥Ïßê
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         Debug.Log("shoot" + destination);
         //startPos = Vector2.zero;
         //endPos = Vector2.zero;
         rg2D.gravityScale = setGravityScale();
         return;
 
-<<<<<<< HEAD
     }*/
 
     private void HandleTouchEnd(Touch touch)
@@ -630,38 +346,12 @@ public class TestScript : MonoBehaviour
             touchStart = false;
             isTouchBottom = false;
             isStart = false;
-            speed = 100f;//ø©±‚ ±Ó¡ˆ ≥Ø∏Æ±‚ ¿ß«— º¬∆√¿Ã¥œ±Ó ºˆ¡§
-=======
-    }
-
-    private void HandleTouchEnd(Touch touch)
-    {
-        if (uiTouched)//uiÏùºÎïå
-        {
-            Debug.Log("UI ÌÑ∞ÏπòÎ°ú Ï¢ÖÎ£å");
-            uiTouched = false;
-            return;
-        }
-        else//uiÎ∂ÄÎ∂ÑÏù¥ ÏïÑÎãêÎïå 
-        {
-            //if (isDrag)
-            //{
-            //touchTime = Time.time - touchStartTime;
-            Debug.Log(string.Format("touchTime :{0}", grabTime));
-            canTouch = false;
-            //isWallHit = false;//ÎìúÎûòÍ∑∏Í∞Ä ÎÅùÎÇòÎäî ÏãúÏ†êÏóêÏÑú falseÎ°ú Ï†ÑÌôòÌï¥ Ïû°ÏßÄ Î™ªÌïòÍ≤å ÌïòÍ∏∞ÏúÑÌï®
-            touchStart = false;
-            isTouchBottom = false;
-            isStart = false;
-            //grabCoolTime = 0;//Ïø®ÌÉÄÏûÑ
-            //canTouch = true;
-            speed = 3f;//Ïó¨Í∏∞ ÍπåÏßÄ ÎÇ†Î¶¨Í∏∞ ÏúÑÌïú ÏÖãÌåÖÏù¥ÎãàÍπå ÏàòÏ†ï
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
+            speed = 3f;//ø©±‚ ±Ó¡ˆ ≥Ø∏Æ±‚ ¿ß«— º¬∆√¿Ã¥œ±Ó ºˆ¡§
                        //rg2D.gravityScale = setGravityScale();
+                       //∏∏æ‡ velocity¿Ãµø¿Ã∂Û∏È 100¡§µµ¥¬ ¡‡æﬂ«‘
 
             endPos = Camera.main.ScreenToWorldPoint(touch.position);
             Debug.Log("endoPos :" + endPos);
-<<<<<<< HEAD
             //new Vector2(transform.position.x,transform.position.y) ¿Ã∞… ≥÷¿∏∏È µµ«¸¿∏∑Œ ∫Œ≈Õ ∏∂¡ˆ∏∑ º’∞°∂Ù ¿ßƒ°
             posDistance = Vector2.Distance(startPos, endPos);
             //Debug.Log(string.Format("Ω√¿€ ¿ßƒ° :{0}, ¡æ∑· ¿ßƒ° :{1}, ∞≈∏Æ = {2} ", startPos, endPos, posDistance));
@@ -678,27 +368,12 @@ public class TestScript : MonoBehaviour
 
                 /*rg2D.gravityScale = setGravityScale(); //Shoot«‘ºˆ∑Œ ¿Ãµø
                 touchStart = true;//¥‹º¯ ≈Õƒ°±‚ø° 
-=======
-            //new Vector2(transform.position.x,transform.position.y) Ïù¥Í±∏ ÎÑ£ÏúºÎ©¥ ÎèÑÌòïÏúºÎ°ú Î∂ÄÌÑ∞ ÎßàÏßÄÎßâ ÏÜêÍ∞ÄÎùΩ ÏúÑÏπò
-            posDistance = Vector2.Distance(startPos, endPos);
-            //Debug.Log(string.Format("ÏãúÏûë ÏúÑÏπò :{0}, Ï¢ÖÎ£å ÏúÑÏπò :{1}, Í±∞Î¶¨ = {2} ", startPos, endPos, posDistance));
-            //}
-            if (posDistance < 0.2)//Îã®Ïàú ÌÑ∞Ïπò ÌÑ∞ÏπòÎ•º Í±∞Î¶¨Î°ú ÌåêÎã® 
-            {
-                Debug.Log("Îã®Ïàú ÌÑ∞Ïπò");
-                Shoot();
-                isStop = false;
-
-                /*rg2D.gravityScale = setGravityScale(); //ShootÌï®ÏàòÎ°ú Ïù¥Îèô
-                touchStart = true;//Îã®Ïàú ÌÑ∞ÏπòÍ∏∞Ïóê 
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
                 startPos = transform.position;
                 endPos = new Vector2(startPos.x, -screenYpos);
                 speed = 5;
                 destination=(endPos-startPos).normalized;*/
 
             }
-<<<<<<< HEAD
             else//µÂ∑°±◊Ω√  
             {
                 destination = (endPos - startPos).normalized;//«ˆ¿Á ƒ⁄µÂ¥¬ »≠∏È æÓµ∏¶ ≈Õƒ° «œ¥ı∂Ûµµ ∞∞¿∫ ¿Ãµø πÊ«‚ø° µ˚∂Û øÚ¡˜¿”
@@ -706,65 +381,38 @@ public class TestScript : MonoBehaviour
                 player.SetDestination(destination);
                 player.SetpreVec(destination);//¿Ãµø ∫§≈Õ ¿˙¿Â
                 collsitonCount = 0;
+                rg2D.velocity = Vector2.zero;
+                rg2D.gravityScale = 0.0f;
                 Debug.Log("µÂ∑°±◊ ∫§≈Õ" + destination);
             }
             isDrag = false;
             grabCoolTime = 0;//ƒ≈∏¿”
-=======
-            else//ÎìúÎûòÍ∑∏Ïãú  
-            {
-                destination = (endPos - startPos).normalized;//ÌòÑÏû¨ ÏΩîÎìúÎäî ÌôîÎ©¥ Ïñ¥ÎîîÎ•º ÌÑ∞Ïπò ÌïòÎçîÎùºÎèÑ Í∞ôÏùÄ Ïù¥Îèô Î∞©Ìñ•Ïóê Îî∞Îùº ÏõÄÏßÅÏûÑ
-                destination = VectorCorrection(destination);
-                Debug.Log("ÎìúÎûòÍ∑∏ Î≤°ÌÑ∞" + destination);
-            }
-            isDrag = false;
-            grabCoolTime = 0;//Ïø®ÌÉÄÏûÑ
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         }
 
     }
 
-<<<<<<< HEAD
     /*private void HandleTouchMove(Touch touch)
     {
         Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);//¿Ã∑∏∞‘ «ÿæﬂ¡ˆ ±‚±‚∏∂¥Ÿ »≠∏È¿« ¡¬«•∑Œ º≥¡§µ»¥Ÿ.
         isDrag = true;//µÂ∑°±◊ »Æ¿Œ¿ª ¿ß«‘
-=======
-    private void HandleTouchMove(Touch touch)
-    {
-        Vector2 pos = Camera.main.ScreenToWorldPoint(touch.position);//Ïù¥Î†áÍ≤å Ìï¥ÏïºÏßÄ Í∏∞Í∏∞ÎßàÎã§ ÌôîÎ©¥Ïùò Ï¢åÌëúÎ°ú ÏÑ§Ï†ïÎêúÎã§.
-        isDrag = true;//ÎìúÎûòÍ∑∏ ÌôïÏù∏ÏùÑ ÏúÑÌï®
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
 
         if (grabTime > 1)
         {
 
-<<<<<<< HEAD
             Debug.Log("»¶µ˘ 1√  ¡ˆ≥≤");
-=======
-            Debug.Log("ÌôÄÎî© 1Ï¥à ÏßÄÎÇ®");
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
             //rg2D.velocity = preVelocity;
             //Shoot();
 
         }
-<<<<<<< HEAD
         if (isStart)//√≥¿Ω µÂ∑°±◊ ∫Œ∫–
         {
             Debug.Log("MoveToward pos =>" + pos);
             transform.position = new Vector2(pos.x, -4.4f);//ƒ´∏ﬁ∂Û πŸ¥⁄
-=======
-        if (isStart)//Ï≤òÏùå ÎìúÎûòÍ∑∏ Î∂ÄÎ∂Ñ
-        {
-            Debug.Log("MoveToward pos =>" + pos);
-            transform.position = new Vector2(pos.x, -4.4f);//Ïπ¥Î©îÎùº Î∞îÎã•
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         }
         else
         {
 
             //isthrow = true;
-<<<<<<< HEAD
             //Debug.Log("µÂ∑°±◊ :" + pos);
         }
     }*/
@@ -772,38 +420,18 @@ public class TestScript : MonoBehaviour
     private Vector2 HoldPossion()//¿ßƒ° ¿ßƒ° ∞Ì¡§Ω√≈∞¥¬ «‘ºˆ
     {
         rg2D.velocity = Vector2.zero;
-        rg2D.gravityScale = 2f;
+        //rg2D.gravityScale = 2f;
 
 
         transform.Translate(Vector2.zero);//¿ßƒ° ∞Ì¡§
         transform.position = transform.position;
         return Vector2.zero;
     }
-=======
-            //Debug.Log("ÎìúÎûòÍ∑∏ :" + pos);
-        }
-    }
-
-    private void HoldPossion()//ÏúÑÏπò ÏúÑÏπò Í≥†Ï†ïÏãúÌÇ§Îäî Ìï®Ïàò
-    {
-        rg2D.velocity = Vector2.zero;
-        rg2D.gravityScale = 0.0f;
-
-        transform.Translate(Vector2.zero);//ÏúÑÏπò Í≥†Ï†ï
-        transform.position = transform.position;
-        return;
-    }
-
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
     private Vector2 VectorCorrection(Vector2 pos)
     {
         float correctino_posy = 0.0f;
         float correctino_posx = 0.0f;
-<<<<<<< HEAD
         if (pos.y <= 0)//0∫∏¥Ÿ ¿€∞≈≥™ ∞∞¿∏∏È ∫∏¡§
-=======
-        if (pos.y <= 0)//0Î≥¥Îã§ ÏûëÍ±∞ÎÇò Í∞ôÏúºÎ©¥ Î≥¥Ï†ï
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
         {
             correctino_posy = 0.8f;
         }
@@ -814,7 +442,6 @@ public class TestScript : MonoBehaviour
         Vector2 vector_correction = new Vector2(pos.x, correctino_posy);
         return vector_correction;
     }
-<<<<<<< HEAD
     
     private void StickWall()//∫Æø° ∫ŸæÓº≠ πÃ≤Ù∑Ø¡ˆ¥¬ «‘ºˆ
     {
@@ -830,8 +457,6 @@ public class TestScript : MonoBehaviour
         }
         
     }
-=======
->>>>>>> 59d23899158dfeb72e74b410882b68be8c33a538
 
 
 }
