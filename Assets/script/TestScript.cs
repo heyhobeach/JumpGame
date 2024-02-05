@@ -71,7 +71,7 @@ public class TestScript : MonoBehaviour
     public float controllRatio = 33;
     private float screenYpos;
 
-    public bool isStart = true;
+    public bool reflectTouch = false;//터치시 반사 하는 변수
 
     public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단
 
@@ -108,6 +108,7 @@ public class TestScript : MonoBehaviour
         //destination = new Vector2(-1.4f, 4);;
         transform.position = new Vector2(0, -4.5f);
         position = transform.position;
+        //Debug.Log(CameraSet.cameraInstance.GetStartYpos());
 
         rg2D = GetComponent<Rigidbody2D>();
         rg2D.gravityScale = 0.2f;
@@ -249,12 +250,12 @@ public class TestScript : MonoBehaviour
                 Touch touch = Input.GetTouch(0);//처음 터치된 정보
                 grabTime += Time.deltaTime;
 
-                if (touch.phase == TouchPhase.Began && canTouch)
+                if (touch.phase == TouchPhase.Began)
                 {
                     //Debug.Log("Began1");
                     HandleTouchBegan(touch);//움직이면 안됨
                 }
-                else if (touch.phase == TouchPhase.Ended && canTouch)
+                else if (touch.phase == TouchPhase.Ended )
                 {
                     //Debug.Log("End2");
                     HandleTouchEnd(touch);
@@ -347,6 +348,8 @@ public class TestScript : MonoBehaviour
         touchStartTime = Time.time;
         isTouchBottom = false;
         gravityCoolTime = 0;
+        Debug.Log(string.Format("현재 위치 {0}, 처음 위치 {1}, 차이 {2}", CameraSet.cameraInstance.GetCurrentYpos(), CameraSet.cameraInstance.GetStartYpos(), 
+            CameraSet.cameraInstance.GetCurrentYpos() - CameraSet.cameraInstance.GetStartYpos()));
         if (canTouch)//터치 가능할때 조작 추가로 적기 위해
         {
             //player.SetDestination(HoldPossion());//주석 처리 함으로서 멈추는것 없이 만든다
@@ -354,6 +357,7 @@ public class TestScript : MonoBehaviour
         }
 
         startPos = Camera.main.ScreenToWorldPoint(touch.position);
+        startPos.y -= CameraSet.cameraInstance.GetCurrentYpos() - CameraSet.cameraInstance.GetStartYpos();//카메라 Y좌표의 차를 계산해서 현재 위치를 빼 줌으로 계속 같은 화면을 터치 하도록 만듬
         //Debug.Log("시작 :" + startPos);
     }
 
@@ -388,33 +392,47 @@ public class TestScript : MonoBehaviour
         else//ui부분이 아닐때 
         {
             //if (isDrag)
-            //{
+            //{7
             touchTime = Time.time - touchStartTime;
             //Debug.Log(string.Format("touchTime :{0}", grabTime));
             canTouch = false;//나중에 드래그 안으로 넣어야함
             //isWallHit = false;//드래그가 끝나는 시점에서 false로 전환해 잡지 못하게 하기위함
             touchStart = false;
             isTouchBottom = false;
-            isStart = false;
+            
             speed = 6f;//여기 까지 날리기 위한 셋팅이니까 수정
                        //rg2D.gravityScale = setGravityScale();
                        //만약 velocity이동이라면 100정도는 줘야함
 
             endPos = Camera.main.ScreenToWorldPoint(touch.position);
+            endPos.y -= CameraSet.cameraInstance.GetCurrentYpos() - CameraSet.cameraInstance.GetStartYpos();
             //Debug.Log("endoPos :" + endPos);
             //new Vector2(transform.position.x,transform.position.y) 이걸 넣으면 도형으로 부터 마지막 손가락 위치
             posDistance = Vector2.Distance(startPos, endPos);
-            //Debug.Log(string.Format("시작 위치 :{0}, 종료 위치 :{1}, 거리 = {2} ", startPos, endPos, posDistance));
+            Debug.Log(string.Format("시작 위치 :{0}, 종료 위치 :{1}, 거리 = {2} ", startPos, endPos, posDistance));
             //}
             collsitonCount = 0;
-            if (posDistance < 0.2)//단순 터치 터치를 거리로 판단 
+            if (posDistance < 0.2)//거리가 짧으며 reflectTouch가 false일때 가능
             {
                 Debug.Log("단순 터치");
-                destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
+                
+                //destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
+                if (!reflectTouch)
+                {
+                    destination.x *= -1;
+                    player.SetDestination(destination);
+                    reflectTouch = true;
+                }
+                else
+                {
+                    return;
+                }
+
 
             }
-            else//드래그시  
+            else//드래그시      
             {
+                reflectTouch = false;//터치시 반사
                 destination = (endPos - startPos).normalized;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
                 destination = VectorCorrection(destination);
                 player.SetDestination(destination);
@@ -423,6 +441,7 @@ public class TestScript : MonoBehaviour
                 rg2D.velocity = Vector2.zero;
                 rg2D.gravityScale = 0.0f;
                 //Debug.Log("드래그 벡터" + destination);
+
             }
             isDrag = false;
         }
