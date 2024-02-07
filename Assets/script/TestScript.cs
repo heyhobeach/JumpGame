@@ -170,10 +170,11 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
+        Debug.Log(collsitonCount);
         if (collision.gameObject.name != "bottom") 
         {
             result = collision.GetContact(0).point.x - collision.transform.position.x;
-            Debug.Log(string.Format("�⵿ ����{0} ������Ʈ ��ġ{1} ���{2}", collision.GetContact(0).point.x, collision.transform.position.x, result));
+            // Debug.Log(string.Format("�⵿ ����{0} ������Ʈ ��ġ{1} ���{2}", collision.GetContact(0).point.x, collision.transform.position.x, result));
 
             //if (result < 0)
             //{
@@ -249,13 +250,16 @@ public class TestScript : MonoBehaviour
             break;
             case TempPanel.InputState.Touch:
             if(!canTouch) break;
-            destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
+            destination.x *= -1;
+            player.SetDestination(destination);
+            reflectTouch = true;
 
             canTouch = false;
             touchStart = false;
             break;
             case TempPanel.InputState.Drag:
             if(!canTouch) break;
+            collsitonCount = 0;
             destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
             destination = VectorCorrection(destination);
             player.SetDestination(destination);
@@ -263,6 +267,15 @@ public class TestScript : MonoBehaviour
 
             rg2D.velocity = Vector2.zero;
             rg2D.gravityScale = 0.0f;
+
+            if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
+            {
+                Debug.Log(player.GetDestinaion());
+                destination.x *= -1;
+                //player.SetDestination(new Vector2(1, 1));
+                player.SetDestination(destination);
+                collsitonCount++;
+            }
 
             touchStart = false;
             canTouch = false;

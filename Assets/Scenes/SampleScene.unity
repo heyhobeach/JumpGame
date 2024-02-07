@@ -662,7 +662,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraZpos: 0
   offset: {x: 0, y: 0, z: -10}
-  Top: {x: 0, y: 0}
+  bottom: {x: 0, y: 0}
   player: {fileID: 883596407}
   smoothSpeed: 1
   high: 0
@@ -695,7 +695,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528470188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1019,7 +1019,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  collsitonCount: 0
   dragPower: 0
   scale: 0.5
   isTouchBottom: 0
