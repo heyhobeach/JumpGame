@@ -4,6 +4,7 @@ using System.Collections;
 //using TreeEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static ObjectManager;
 
 public class Player
 {
@@ -183,7 +184,23 @@ public class TestScript : MonoBehaviour
 
         }
 
-        Debug.Log(ObjectManager.Instance.GetWallType(collision));
+        Debug.Log(collision.gameObject.name);
+
+
+        if (collision.gameObject.GetComponentInChildren<ObjectManager>() != null)
+        {
+            Debug.Log("오브젝트 매니저가 있음");
+            switch (collision.gameObject.GetComponent<ObjectManager>().type)
+            {
+                case WallType.DEAD_WALL:
+                    Debug.Log("스위치 데드월");
+                    GameManager.Instance.Dead();
+                    break;
+                default:
+                    Debug.Log("디폴트");
+                    break;
+            }
+        }
 
 
 
@@ -223,7 +240,7 @@ public class TestScript : MonoBehaviour
                     Debug.Log("�ٴ� ��ġ");
                     isTouchBottom = true;
                     player.SetDestination(HoldPossion());
-                    GameManager.Instance.Dead();
+                    //GameManager.Instance.Dead();
                     //result = 0;
                     //isStop = true;
                     
