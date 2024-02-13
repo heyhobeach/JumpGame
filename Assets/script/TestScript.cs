@@ -230,14 +230,12 @@ public class TestScript : MonoBehaviour
             dragCoolTime = 0;//�ð� �ʱ�ȭ
             gravityCoolTime = 0;//�浹�ϰ� �߷� ����Ǹ� �� �Ǳ⿡ �־����
             //speed /= 2;//���� �浹�� �ӵ� ����
-            Debug.Log("case ��");
             switch (collision.gameObject.name)//����ȭ�� enum���� ����
             {
                 case "top"://해당 부분은 아마 쓸 일은 없을거같긴함
                     //isTouchTop = true;
                     break;
                 case "bottom":
-                    Debug.Log("�ٴ� ��ġ");
                     isTouchBottom = true;
                     player.SetDestination(HoldPossion());
                     //GameManager.Instance.Dead();
@@ -417,7 +415,6 @@ public class TestScript : MonoBehaviour
             collsitonCount = 0;
             if (posDistance < 0.2)//�Ÿ��� ª���� reflectTouch�� false�϶� ����
             {
-                Debug.Log("�ܼ� ��ġ");
                 
                 //destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
                 if (!reflectTouch)
@@ -449,7 +446,7 @@ public class TestScript : MonoBehaviour
                     //Debug.Log("x ����" + player.GetDestinaion().x);
 
 
-                    Debug.Log(string.Format("�巡�� ��ȣ {0} �� �浹 ��ȣ{1}", Mathf.Sign(destination.x), Mathf.Sign(result)));
+               
 
                     if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
                     {

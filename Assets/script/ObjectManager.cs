@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : MonoBehaviour//MonoBehaviour 상속 받는것 필요없는듯
 {
     // Start is called before the first frame update
 
