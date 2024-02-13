@@ -93,6 +93,8 @@ public class TestScript : MonoBehaviour
 
     public bool uiCheack = false;
 
+    public bool side = false;
+
     private IEnumerator cooltimeCoroutine;
     private IEnumerator gravityCoroutine;
 
@@ -156,29 +158,36 @@ public class TestScript : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log("stay");
-        if (isTouchBottom)//���Ұ� Ʈ��� �¿찡 ���̶�� 
+        //Debug.Log("stay");
+        //if (isTouchBottom)//���Ұ� Ʈ��� �¿찡 ���̶�� 
+        //{
+        //    //Debug.Log("붙어 있는 객체 이름 :" + collision.gameObject.name);
+        if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
-            isStay = false;
+            side = true;
         }
-        else
-        {
-            isStay = true;
-        }
+        //    isStay = false;
+        //}
+        //else
+        //{
+        //    isStay = true;
+        //}
         
+        //isStay = true;
         //Debug.Log("���� ����");
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //Debug.Log("Exit");
+        Debug.Log("Exit");
         isTouchBottom = false;
+        //side = false;
         isWallHit = false;
         isStay = false;
     }
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
         Debug.Log(collsitonCount);
-        if (collision.gameObject.name != "bottom") 
+        if (collision.gameObject.name != "Ground") 
         {
             result = collision.GetContact(0).point.x - collision.transform.position.x;
 
@@ -209,14 +218,14 @@ public class TestScript : MonoBehaviour
         {
             Debug.Log(collision.gameObject.name);
 
-            if (collsitonCount < maxCollsion -1&&collision.gameObject.name!="bottom")//�浹Ƚ��
+            if (collsitonCount < maxCollsion -1&&collision.gameObject.name!= "Ground")//�浹Ƚ��
             {
                 collsitonCount++;
-            }else if(collsitonCount == maxCollsion - 2 && collision.gameObject.name != "bottom")
+            }else if(collsitonCount == maxCollsion - 2 && collision.gameObject.name != "Ground")
             {
                 rg2D.gravityScale = scale;
             }
-            else if(collsitonCount == maxCollsion - 1 && collision.gameObject.name != "bottom")
+            else if(collsitonCount == maxCollsion - 1 && collision.gameObject.name != "Ground")
             {
                 StickWall();
                 rg2D.gravityScale = scale;//중복되는 부분 빼도될듯해보임
@@ -235,7 +244,7 @@ public class TestScript : MonoBehaviour
                 case "top"://해당 부분은 아마 쓸 일은 없을거같긴함
                     //isTouchTop = true;
                     break;
-                case "bottom":
+                case "Ground":
                     isTouchBottom = true;
                     player.SetDestination(HoldPossion());
                     //GameManager.Instance.Dead();
@@ -246,10 +255,10 @@ public class TestScript : MonoBehaviour
 
                     break;
                 case "left"://Ȯ�强������ �� �� ���� ����
-  
+                    //side = true;
                     break;
                 case "right":
-
+                    //side = true;
                     break;
 
             }
@@ -282,7 +291,8 @@ public class TestScript : MonoBehaviour
             rg2D.velocity = Vector2.zero;
             rg2D.gravityScale = 0.0f;
 
-            if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
+            Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+            if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
                 destination.x *= -1;
@@ -293,6 +303,7 @@ public class TestScript : MonoBehaviour
 
             touchStart = false;
             canTouch = false;
+            side = false;
             break;
             case TempPanel.InputState.Hold:
 
@@ -389,7 +400,7 @@ public class TestScript : MonoBehaviour
 
     }*/
 
-    private void HandleTouchEnd(Touch touch)
+    private void HandleTouchEnd(Touch touch)//현재 사용안함
     {
         if (uiTouched)//ui일때
         {
@@ -430,7 +441,7 @@ public class TestScript : MonoBehaviour
 
 
             }
-            else//�巡�׽�      
+            else   
             {
                 if (canTouch)
                 {
@@ -446,9 +457,9 @@ public class TestScript : MonoBehaviour
                     //Debug.Log("x ����" + player.GetDestinaion().x);
 
 
-               
 
-                    if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
+                    Debug.Log(Mathf.Sign(destination.x) + " : " + Mathf.Sign(result));
+                    if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//
                     {
                         Debug.Log(player.GetDestinaion());
                         destination.x *= -1;
