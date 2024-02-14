@@ -7,14 +7,14 @@ public class CameraSet : MonoBehaviour
     public  float cameraZpos;//전부 스테틱으로 할 필요없었고 그냥 카메라 인스턴스 만들어서 가능 골드메탈 무한배경19:28초 참고
     //public float ratio=0.33f;
 
-    public  float limitPos;
+    private float startYpos;
     public Vector3 offset=new Vector3(0,0,-10);
-    public  Vector2 Top;
+    public  Vector2 bottom;
     public  static CameraSet cameraInstance;
     public TestScript player;
 
     [Range(0, 10)]
-    public float smoothSpeed=1;//카메라가 따라오는속도 조절하는변수
+    public float smoothSpeed=2;//카메라가 따라오는속도 조절하는변수
     public float high = 0;
 
     [Range(0, 1)]
@@ -26,8 +26,9 @@ public class CameraSet : MonoBehaviour
         cameraZpos = transform.position.z;
         Vector2 Right = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
         Vector2 Left = -Right;
-        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
-        Vector2 Bottom = -Top;
+        Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        bottom = -Top;
+        startYpos = transform.position.y;
         //limitPos = Bottom.y - cameraZpos * ratio;
     }
 
@@ -45,6 +46,14 @@ public class CameraSet : MonoBehaviour
         {
             follow();
         }
+    }
+
+    public float GetStartYpos() { 
+        return startYpos;
+    }
+    public float GetCurrentYpos()
+    {
+        return transform.position.y;
     }
 
     // Update is called once per frame
