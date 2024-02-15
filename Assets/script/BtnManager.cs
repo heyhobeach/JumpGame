@@ -13,10 +13,8 @@ public class BtnManager : MonoBehaviour
     {
         get 
         {
-            if(instance == null)
-            {
-                instance = null;
-            }return instance;
+            if(instance == null) instance = null;
+            return instance;
         }
     }
 

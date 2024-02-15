@@ -103,16 +103,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void Retry()//재시작 함수
-    {
-        Debug.Log("Retry");
-        SceneManager.LoadScene("SampleScene");
-        Time.timeScale = 1f;//pause 시킨것 다시 풀어줌
-    }
+    public void Retry() => SystemManager.LoadScene("SampleScene"); //재시작 함수
 
-    public void Lobby()//로비로 돌아가는함수
-    {
-        //로비 내용
-    }
+    public void Lobby() => SystemManager.LoadScene("Lobby"); //로비로 돌아가는함수
 
 }
