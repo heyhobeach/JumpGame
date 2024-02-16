@@ -16,7 +16,7 @@ public class SystemManager : MonoBehaviour
         }
     }
 
-    private GameObject optionCanvas;
+    public GameObject optionCanvas { get; private set; }
     private GameObject confirmCanvas;
 
     void Awake() 
@@ -44,6 +44,6 @@ public class SystemManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void ShowOption() => optionCanvas.SetActive(true);
-    public void ShowConfirm() => confirmCanvas.SetActive(true);
+    public void ActiveOption(bool active) => optionCanvas.SetActive(active);
+    public void ActiveConfirm(bool active) => confirmCanvas.SetActive(active);
 }

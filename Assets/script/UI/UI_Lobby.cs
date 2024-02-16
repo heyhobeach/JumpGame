@@ -15,9 +15,15 @@ public class UI_Lobby : MonoBehaviour
         optionButton.onClick.RemoveAllListeners();
         startButton.onClick.RemoveAllListeners();
         
-        optionButton.onClick.AddListener(SystemManager.Instance.ShowOption);
-        startButton.onClick.AddListener(() => {
-            SystemManager.LoadScene("SampleScene");
+        optionButton.onClick.AddListener(() => {
+            Time.timeScale = 0;
+            UI_Option temp = SystemManager.Instance.optionCanvas.GetComponent<UI_Option>();
+            temp.RemoveAllButtons();
+            temp.SetInfoText("Option");
+            temp.AddButton("Rank", null);
+            temp.AddButton("Credit", null);
+            SystemManager.Instance.ActiveOption(true);
         });
+        startButton.onClick.AddListener(() => { SystemManager.LoadScene("SampleScene"); });
     }
 }
