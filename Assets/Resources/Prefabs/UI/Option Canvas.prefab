@@ -555,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoText: {fileID: 8956045223234348459}
-  xButton: {fileID: 330164636430842303}
+  escButton: {fileID: 330164636430842303}
   buttonsParent: {fileID: 6362420329675433931}
   optionButtons:
   - {fileID: 7758283641284149885}

@@ -7,10 +7,8 @@ public class UI_InGame : MonoBehaviour
 {
     [SerializeField] private Button pauseButton;
 
-    void Start()
+    void Awake()
     {
-        pauseButton.onClick.RemoveAllListeners();
-
         pauseButton.onClick.AddListener(() => {
             Time.timeScale = 0;
             UI_Option temp = SystemManager.Instance.optionCanvas.GetComponent<UI_Option>();
@@ -18,13 +16,13 @@ public class UI_InGame : MonoBehaviour
             temp.SetInfoText("Pause");
             temp.AddButton("Quit", () => {
                 SystemManager.LoadScene("Lobby");
-                SystemManager.Instance.ActiveOption(false);
+                SystemManager.Instance.optionCanvas.SetActive(false);
             });
             temp.AddButton("Play", () => {
-                SystemManager.Instance.ActiveOption(false);
+                SystemManager.Instance.optionCanvas.SetActive(false);
                 Time.timeScale = 1;
             });
-            SystemManager.Instance.ActiveOption(true);
+            SystemManager.Instance.optionCanvas.SetActive(true);
         });
     }
 }

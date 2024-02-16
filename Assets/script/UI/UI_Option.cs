@@ -4,25 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Unity.VisualScripting;
 
-public class UI_Option : MonoBehaviour
+public class UI_Option : PopUp
 {
     [SerializeField] private TMP_Text infoText;
-    [SerializeField] private Button xButton;
+    [SerializeField] private Button escButton;
     [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button[] optionButtons;
     private List<Button> appendButton = new();
     
-    void Start()
+    void Awake()
     {
-        xButton.onClick.RemoveAllListeners();
-
-        xButton.onClick.AddListener(()=>{ this.gameObject.SetActive(false); });
-        this.gameObject.SetActive(false);
+        escButton.onClick.AddListener(EscPopUp);
     }
 
+    public override void EscPopUp()
+    {
+        this.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
     public void SetInfoText(string text) => infoText.text = text;
-    public void AddButton(string name, Action action)
+    public void AddButton(string name, Action action = null)
     {
         Button tempButton = Instantiate(Resources.Load("Prefabs/UI/Button") as GameObject, buttonsParent).GetComponent<Button>();
         tempButton.GetComponentInChildren<TMP_Text>().text = name;

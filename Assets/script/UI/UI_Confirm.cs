@@ -5,29 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UI_Confirm : MonoBehaviour
+public class UI_Confirm : PopUp
 {
     [SerializeField] private TMP_Text infoText;
-    [SerializeField] private Button xButton;
+    [SerializeField] private Button escButton;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cencelButton;
 
-    void Start()
+    void Awake()
     {
-        xButton.onClick.RemoveAllListeners();
-        cencelButton.onClick.RemoveAllListeners();
-
-        xButton.onClick.AddListener(Cancel);
-        cencelButton.onClick.AddListener(Cancel);
+        escButton.onClick.AddListener(EscPopUp);
+        cencelButton.onClick.AddListener(EscPopUp);
     }
 
-    private void Cancel()
+    public override void EscPopUp()
     {
         confirmButton.onClick.RemoveAllListeners();
         this.gameObject.SetActive(false);
     }
 
-    public void ConfirmSet(Action action, string info)
+    public void ConfirmSet(string info, Action action)
     {
         infoText.text = info;
         confirmButton.onClick.AddListener(()=>{

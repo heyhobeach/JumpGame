@@ -16,8 +16,10 @@ public class SystemManager : MonoBehaviour
         }
     }
 
+    public Stack<PopUp> popUps = new();
+
     public GameObject optionCanvas { get; private set; }
-    private GameObject confirmCanvas;
+    public GameObject confirmCanvas { get; private set; }
 
     void Awake() 
     {
@@ -38,12 +40,27 @@ public class SystemManager : MonoBehaviour
         confirmCanvas.SetActive(false);
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(popUps.Count > 0)
+            {
+                popUps.Peek().EscPopUp();
+                return;
+            }
+            else
+            {
+                UI_Confirm temp = confirmCanvas.GetComponent<UI_Confirm>();
+                temp.ConfirmSet("게임을 종료하시겠습니까?", Application.Quit);
+                confirmCanvas.SetActive(true);
+            }
+        } 
+    }
+
     public static void LoadScene(string sceneName)
     {
         if(Time.timeScale != 1) Time.timeScale = 1;
         SceneManager.LoadScene(sceneName);
     }
-
-    public void ActiveOption(bool active) => optionCanvas.SetActive(active);
-    public void ActiveConfirm(bool active) => confirmCanvas.SetActive(active);
 }

@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoText: {fileID: 2663943912611106659}
-  xButton: {fileID: 5867103571739374140}
+  escButton: {fileID: 5867103571739374140}
   confirmButton: {fileID: 3404455154206922792}
   cencelButton: {fileID: 792581818897283640}
 --- !u!1 &1633877053519551333
