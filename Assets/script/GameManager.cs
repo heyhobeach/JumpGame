@@ -17,16 +17,16 @@ public class GameManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private static GameManager instance=null;
+    private static GameManager instance = null;
 
     public static GameManager Instance
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
             {
                 return null;
-            }return instance;
+            } return instance;
         }
     }
 
@@ -34,15 +34,15 @@ public class GameManager : MonoBehaviour
 
     public Image GameoverPopup;
 
-    void Awake() 
+    void Awake()
     {
-       // PlayerPrefs.DeleteKey("HighScore");//최고기록 지우는용
+        // PlayerPrefs.DeleteKey("HighScore");//최고기록 지우는용
 
         if (instance == null)
         {
-            instance= this;
+            instance = this;
 
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);//gameobject
             DontDestroyOnLoad(GameObject.Find("PopupCanvas"));//retry를 누르고 나서도 계속 PopupCanvas를 연결시키기 위함
         }
         else
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         }
         SetPopup();
 
-        
+
 
     }
 
@@ -71,11 +71,11 @@ public class GameManager : MonoBehaviour
             //Debug.Log(jsonData);
 
         }
-        score[1] =PlayerPrefs.GetFloat("HighScore");
+        score[1] = PlayerPrefs.GetFloat("HighScore");
 
         return score;
     }
-    
+
     public void SetPopup()//초기 팝업창들 전부 false로 가려주기위함
     {
         GameoverPopup.gameObject.SetActive(false);//초기 게임 ui 초기화 나중에 함수로 묶을예정
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
     public void PopupHandler()//아직은 인자가 없지만 나중에 팝업창이 여러개라면 여기서 팝업 관리 할 예정
     {
         //죽는팝업
-        GameoverPopup.gameObject.SetActive(true) ;
+        GameoverPopup.gameObject.SetActive(true);
 
     }
 
@@ -105,6 +105,11 @@ public class GameManager : MonoBehaviour
 
     public void Retry() => SystemManager.LoadScene("SampleScene"); //재시작 함수
 
-    public void Lobby() => SystemManager.LoadScene("Lobby"); //로비로 돌아가는함수
+    public void Lobby()
+    {
+        SetPopup();
+        SystemManager.LoadScene("Lobby");
+
+    }//로비로 돌아가는함수
 
 }

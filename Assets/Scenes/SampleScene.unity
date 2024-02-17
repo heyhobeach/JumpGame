@@ -2470,7 +2470,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1627495343
 RectTransform:
@@ -2729,7 +2729,7 @@ GameObject:
   - component: {fileID: 1920214347}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: border
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

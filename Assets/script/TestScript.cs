@@ -141,7 +141,7 @@ public class TestScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnTouchEvent();//��ġ�� ���� ���� player�� ������
+        OnTouchEvent();
 
         
         if (uiCheack)
@@ -151,7 +151,7 @@ public class TestScript : MonoBehaviour
         }
     }
 
-    public float setGravity()//�� �Լ��� ���� �ʿ��ұ�
+    public float setGravity()
     {
         return scale;
     }
@@ -174,7 +174,6 @@ public class TestScript : MonoBehaviour
         //}
         
         //isStay = true;
-        //Debug.Log("���� ����");
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -213,8 +212,7 @@ public class TestScript : MonoBehaviour
 
 
 
-        //Debug.Log(string.Format("{0} �浹 ���� {1} �浹 ��ü ��ǥ {2}", collision.GetContact(0).point.x, collision.transform.position.x, collision.gameObject.name));
-        if (collision.gameObject.tag == "border")//�� �� ��迡 �������
+        if (collision.gameObject.tag == "border")
         {
             Debug.Log(collision.gameObject.name);
 
@@ -236,10 +234,10 @@ public class TestScript : MonoBehaviour
             destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
             player.SetDestination(destination);
             canTouch = true;
-            dragCoolTime = 0;//�ð� �ʱ�ȭ
-            gravityCoolTime = 0;//�浹�ϰ� �߷� ����Ǹ� �� �Ǳ⿡ �־����
+            dragCoolTime = 0;
+            gravityCoolTime = 0;
             //speed /= 2;//���� �浹�� �ӵ� ����
-            switch (collision.gameObject.name)//����ȭ�� enum���� ����
+            switch (collision.gameObject.name)//이름으로 접근
             {
                 case "top"://해당 부분은 아마 쓸 일은 없을거같긴함
                     //isTouchTop = true;
@@ -254,7 +252,7 @@ public class TestScript : MonoBehaviour
                     //gameover();
 
                     break;
-                case "left"://Ȯ�强������ �� �� ���� ����
+                case "left":
                     //side = true;
                     break;
                 case "right":
