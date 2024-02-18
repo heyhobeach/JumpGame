@@ -13,13 +13,13 @@ public class UI_Lobby : MonoBehaviour
     void Awake()
     {
         optionButton.onClick.AddListener(() => {
-            UI_Option temp = SystemManager.Instance.optionCanvas.GetComponent<UI_Option>();
+            UI_Option temp = GameManager.Instance.optionCanvas.GetComponent<UI_Option>();
             temp.RemoveAllButtons();
             temp.SetInfoText("Option");
             temp.AddButton("Rank");
             temp.AddButton("Credit");
-            SystemManager.Instance.optionCanvas.SetActive(true);
+            GameManager.Instance.optionCanvas.SetActive(true);
         });
-        startButton.onClick.AddListener(() => { SystemManager.LoadScene("SampleScene"); });
+        startButton.onClick.AddListener(() => { GameManager.LoadScene("SampleScene"); });
     }
 }

@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 
 //전체적인 터치 조작을 관리하기위한 부분
-public class TempPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler//터치 관련 인터페이스
+public class TouchPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler, IDragHandler//터치 관련 인터페이스
 {
-    private static TempPanel instance;//싱글톤 사용을 위해
-    public static TempPanel Instance
+    private static TouchPanel instance;//싱글톤 사용을 위해
+    public static TouchPanel Instance
     {
         get
         {
@@ -53,13 +53,13 @@ public class TempPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         inputState = InputState.Drag;//입력 상태 드래그로 표시
         dir = eventData.position - eventData.pressPosition;//방향 계산 eventData(PointerEventData 클래스)안에 존재하는 변수
         dir = dir.normalized;
-        // Debug.Log("DragEnd");
+        Debug.Log("Drag");
         // Debug.Log("Dir : " + dir);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(inputState != InputState.None || inputState != InputState.Touching) return;//입력이 있을때 종료
+        if(inputState != InputState.None) return;//입력이 있을때 종료
         //입력이 없을때 아래 실행
         inputState = InputState.Touching;//inputState에 입력중으로 표시
         pointerId = eventData.pointerId;//클릭된 객체 가져옴
@@ -71,6 +71,6 @@ public class TempPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
     {
         if(pointerId != eventData.pointerId) return;//입력된 값이 다르면 종료
         inputState = InputState.Touch;//상태가 터치로 표시
-        // Debug.Log("Up");
+        Debug.Log("Touch");
     }
 }

@@ -142,13 +142,12 @@ public class TestScript : MonoBehaviour
     void Update()
     {
         OnTouchEvent();
-
         
-        if (uiCheack)
-        {
-            Debug.Log("Ui체크");
-            GameManager.Instance.PopupHandler();
-        }
+        // if (uiCheack)
+        // {
+        //     Debug.Log("Ui체크");
+        //     GameManager.Instance.PopupHandler();
+        // }
     }
 
     public float setGravity()
@@ -177,7 +176,7 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("Exit");
+        // Debug.Log("Exit");
         isTouchBottom = false;
         //side = false;
         isWallHit = false;
@@ -185,27 +184,27 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
-        Debug.Log(collsitonCount);
+        // Debug.Log(collsitonCount);
         if (collision.gameObject.name != "Ground") 
         {
             result = collision.GetContact(0).point.x - collision.transform.position.x;
 
         }
 
-        Debug.Log(collision.gameObject.name);
+        // Debug.Log(collision.gameObject.name);
 
 
         if (collision.gameObject.GetComponentInChildren<ObjectManager>() != null)
         {
-            Debug.Log("오브젝트 매니저가 있음");
+            // Debug.Log("오브젝트 매니저가 있음");
             switch (collision.gameObject.GetComponent<ObjectManager>().type)
             {
                 case WallType.DEAD_WALL:
-                    Debug.Log("스위치 데드월");
+                    // Debug.Log("스위치 데드월");
                     GameManager.Instance.Dead();
                     break;
                 default:
-                    Debug.Log("디폴트");
+                    // Debug.Log("디폴트");
                     break;
             }
         }
@@ -214,7 +213,7 @@ public class TestScript : MonoBehaviour
 
         if (collision.gameObject.tag == "border")
         {
-            Debug.Log(collision.gameObject.name);
+            // Debug.Log(collision.gameObject.name);
 
             if (collsitonCount < maxCollsion -1&&collision.gameObject.name!= "Ground")//�浹Ƚ��
             {
@@ -264,12 +263,12 @@ public class TestScript : MonoBehaviour
     }
     private void OnTouchEvent()//터치를 통한 조작을 판단
     {
-        switch(TempPanel.Instance.inputState)
+        switch(TouchPanel.Instance.inputState)
         {
-            case TempPanel.InputState.None:
+            case TouchPanel.InputState.None:
 
             break;
-            case TempPanel.InputState.Touch:
+            case TouchPanel.InputState.Touch:
             if(!canTouch) break;
             destination.x *= -1;
             player.SetDestination(destination);
@@ -278,10 +277,10 @@ public class TestScript : MonoBehaviour
             canTouch = false;
             touchStart = false;
             break;
-            case TempPanel.InputState.Drag:
+            case TouchPanel.InputState.Drag:
             if(!canTouch) break;
             collsitonCount = 0;
-            destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
+            destination = TouchPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
             destination = VectorCorrection(destination);
             player.SetDestination(destination);
             player.SetpreVec(destination);//이동 벡터 저장
@@ -289,7 +288,7 @@ public class TestScript : MonoBehaviour
             rg2D.velocity = Vector2.zero;
             rg2D.gravityScale = 0.0f;
 
-            Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+            // Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
@@ -303,7 +302,7 @@ public class TestScript : MonoBehaviour
             canTouch = false;
             side = false;
             break;
-            case TempPanel.InputState.Hold:
+            case TouchPanel.InputState.Hold:
 
             break;
             default:
@@ -355,7 +354,7 @@ public class TestScript : MonoBehaviour
                     rg2D.gravityScale = scale;//중력설정
                     touchStart= true;
                     gravityCoolTime = 0;
-                    Debug.Log("충돌 없는 중력");
+                    // Debug.Log("충돌 없는 중력");
 
                 }
             }

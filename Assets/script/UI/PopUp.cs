@@ -5,11 +5,11 @@ using UnityEngine;
 public abstract class PopUp : MonoBehaviour
 {
     public abstract void EscPopUp();
-    void OnEnable() => SystemManager.Instance.popUps.Push(this);
-    void OnDisable()
+    protected void OnEnable() => GameManager.Instance.popUps.Push(this);
+    protected void OnDisable()
     {
-        if(!SystemManager.Instance.popUps.Contains(this)) return;
-        if(SystemManager.Instance.popUps.Peek().Equals(this)) 
-            SystemManager.Instance.popUps.Pop();
+        if(!GameManager.Instance.popUps.Contains(this)) return;
+        if(GameManager.Instance.popUps.Peek().Equals(this)) 
+            GameManager.Instance.popUps.Pop();
     }
 }
