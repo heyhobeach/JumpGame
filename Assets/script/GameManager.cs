@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     public GameObject optionCanvas { get; private set; }
     public GameObject confirmCanvas { get; private set; }
     public GameObject gameOverCanvas { get; private set; }
+    public GameObject CountDownCanvas { get; private set; }
 
     void Awake() 
     {
@@ -83,6 +84,8 @@ public class GameManager : MonoBehaviour
         confirmCanvas.SetActive(false);
         gameOverCanvas = Instantiate(Resources.Load("Prefabs/UI/Game Over Canvas") as GameObject, this.transform);
         gameOverCanvas.SetActive(false);
+        CountDownCanvas = Instantiate(Resources.Load("Prefabs/UI/CountDown Canvas") as GameObject, this.transform);
+        CountDownCanvas.SetActive(false);
     }
 
     void Update()
@@ -136,6 +139,7 @@ public class GameManager : MonoBehaviour
 
 
     public static void Pause() => Time.timeScale = 0; //일시정지 함수
+    public static void Restart() => Time.timeScale = 1; // 재시작 함수
     public static void Continue() => Time.timeScale = 1; //게임재개 함수
 
     public static void LoadScene(string sceneName) //씬 로드 함수

@@ -20,9 +20,11 @@ public class UI_InGame : MonoBehaviour
             });
             temp.AddButton("Play", () => {
                 GameManager.Instance.optionCanvas.SetActive(false);
-                GameManager.Continue();
+                GameManager.Instance.CountDownCanvas.SetActive(true);
             });
             GameManager.Instance.optionCanvas.SetActive(true);
         });
     }
+
+    
 }
