@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UI_CountDown : MonoBehaviour
+public class UI_CountDown : PopUp
 {
-    [SerializeField] private TMP_Text countDownText;
     const int COUNT = 3;
+    [SerializeField] private TMP_Text countDownText;
 
-    void OnEnable() => StartCoroutine("CountDown");
+    protected new void OnEnable()
+    {
+        base.OnEnable();
+        StartCoroutine("CountDown");
+    }
 
-    // public void StartCountDown()
-    // {
-    //     gameObject.SetActive(true);
-    //     StartCoroutine("CountDown");
-    // }
     private IEnumerator CountDown()
     {
         GameManager.Pause();
@@ -25,7 +24,12 @@ public class UI_CountDown : MonoBehaviour
             countDownText.text = (COUNT - i++).ToString();
             yield return new WaitForSecondsRealtime(1);
         }
-        GameManager.Continue();
+        GameManager.Play();
         gameObject.SetActive(false);
+    }
+
+    public override void EscPopUp()
+    {
+        StopCoroutine("CountDown");
     }
 }

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 class PlayerData//json으로 변환할때 클래스 형식으로 변환 하려고
 {
     public float highScore;
-    
+    Sprite sprite;
 }
 
 public class GameManager : MonoBehaviour
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     //public GameObject player;
     public Stack<PopUp> popUps = new();
+    public Action escapeEvent { get; private set; }
 
     public GameObject optionCanvas { get; private set; }
     public GameObject confirmCanvas { get; private set; }
@@ -78,6 +79,8 @@ public class GameManager : MonoBehaviour
         instance= this;
         DontDestroyOnLoad(this.gameObject);
 
+        escapeEvent = new AppQuit();
+
         optionCanvas = Instantiate(Resources.Load("Prefabs/UI/Option Canvas") as GameObject, this.transform);
         optionCanvas.SetActive(false);
         confirmCanvas = Instantiate(Resources.Load("Prefabs/UI/Confirmation Canvas") as GameObject, this.transform);
@@ -92,20 +95,10 @@ public class GameManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(popUps.Count > 0)
-            {
-                popUps.Peek().EscPopUp();
-                return;
-            }
-            else
-            {
-                UI_Confirm temp = confirmCanvas.GetComponent<UI_Confirm>();
-                temp.ConfirmSet("게임을 종료하시겠습니까?", Application.Quit);
-                confirmCanvas.SetActive(true);
-            }
+            if(popUps.Count > 0) popUps.Pop().gameObject.SetActive(false);
+            else { if(escapeEvent != null) escapeEvent(); } 
         }
     }
-
 
 
     public List<float> MakeScore()//점수 만들어서 리턴 할 예정
@@ -139,16 +132,16 @@ public class GameManager : MonoBehaviour
 
 
     public static void Pause() => Time.timeScale = 0; //일시정지 함수
-    public static void Restart() => Time.timeScale = 1; // 재시작 함수
-    public static void Continue() => Time.timeScale = 1; //게임재개 함수
+    public static void Play() => Time.timeScale = 1; // 재시작 함수
 
-    public static void LoadScene(string sceneName) //씬 로드 함수
+    public static void LoadScene(string sceneName, EscapeOption escapeOption = null) //씬 로드 함수
     {
-        if(Time.timeScale != 1) GameManager.Continue();
-        SceneManager.LoadScene(sceneName);
+        if(Time.timeScale != 1) GameManager.Play();
+        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+        if(escapeOption != null) ao.completed += (x)=>{ GameManager.instance.escapeEvent = escapeOption; };
     }
-    public static void Retry() => LoadScene("SampleScene"); //재시작 함수
+    public static void Retry() => LoadScene("SampleScene", new PauseMenu()); //재시작 함수
 
-    public static void Lobby() => LoadScene("Lobby");//로비로 돌아가는함수
+    public static void Lobby() => LoadScene("Lobby", new AppQuit());//로비로 돌아가는함수
 
 }

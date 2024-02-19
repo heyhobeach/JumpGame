@@ -14,7 +14,6 @@ public class UI_GameOver : PopUp
     {
         retry.onClick.AddListener(()=>{
             GameManager.Retry();
-            GameManager.Restart();
             gameObject.SetActive(false);
         });
         lobby.onClick.AddListener(()=>{
@@ -25,8 +24,7 @@ public class UI_GameOver : PopUp
 
     public override void EscPopUp()
     {
-        this.gameObject.SetActive(false);
-        GameManager.Restart();
+        GameManager.Retry();
     }
 
     protected new void OnEnable()

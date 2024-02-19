@@ -13,6 +13,7 @@ public class UI_Option : PopUp
     [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button[] optionButtons;
     private List<Button> appendButton = new();
+    private Action escapeOption;
     
     void Awake()
     {
@@ -21,10 +22,11 @@ public class UI_Option : PopUp
 
     public override void EscPopUp()
     {
-        this.gameObject.SetActive(false);
-        Time.timeScale = 1;
+        if(escapeOption != null) escapeOption();
+        else GameManager.Play();
     }
     public void SetInfoText(string text) => infoText.text = text;
+    public void SetEscButton(Action action) => this.escapeOption = action;
     public void AddButton(string name, Action action = null)
     {
         Button tempButton = Instantiate(Resources.Load("Prefabs/UI/Button") as GameObject, buttonsParent).GetComponent<Button>();

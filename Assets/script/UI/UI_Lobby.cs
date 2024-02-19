@@ -12,14 +12,7 @@ public class UI_Lobby : MonoBehaviour
 
     void Awake()
     {
-        optionButton.onClick.AddListener(() => {
-            UI_Option temp = GameManager.Instance.optionCanvas.GetComponent<UI_Option>();
-            temp.RemoveAllButtons();
-            temp.SetInfoText("Option");
-            temp.AddButton("Rank");
-            temp.AddButton("Credit");
-            GameManager.Instance.optionCanvas.SetActive(true);
-        });
-        startButton.onClick.AddListener(() => { GameManager.LoadScene("SampleScene"); });
+        optionButton.onClick.AddListener(new OptionMenu());
+        startButton.onClick.AddListener(GameManager.Retry);
     }
 }
