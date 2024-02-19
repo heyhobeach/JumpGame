@@ -9,7 +9,10 @@ public class OptionMenu : EscapeOption
         UI_Option temp = GameManager.Instance.optionCanvas.GetComponent<UI_Option>();
         temp.RemoveAllButtons();
         temp.SetInfoText("Option");
-        temp.SetEscButton(()=>{ });
+        temp.SetEscButton(()=>{
+            GameManager.Play();
+            temp.gameObject.SetActive(false);
+        });
         temp.AddButton("Rank");
         temp.AddButton("Credit");
         GameManager.Instance.optionCanvas.SetActive(true);

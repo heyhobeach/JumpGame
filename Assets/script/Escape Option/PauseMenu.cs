@@ -12,6 +12,7 @@ public class PauseMenu : EscapeOption
         temp.SetInfoText("Pause");
         temp.SetEscButton(new PlayContinue());
         temp.AddButton("Quit", () => {
+            temp.SetEscButton(GameManager.Play);
             GameManager.Lobby();
             GameManager.Instance.optionCanvas.SetActive(false);
         });
