@@ -283,6 +283,7 @@ public class TestScript : MonoBehaviour
             destination.x *= -1;
             player.SetDestination(destination);
             reflectTouch = true;
+                Debug.Log("터치");
 
             //canTouch = false;
             touchStart = false;

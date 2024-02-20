@@ -64,7 +64,7 @@ public class TempPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         inputState = InputState.Touching;//inputState에 입력중으로 표시
         pointerId = eventData.pointerId;//클릭된 객체 가져옴
         dir = Vector2.zero;//방향 벡터 종료
-        // Debug.Log("Down");
+         Debug.Log("Down");
     }
 
     public void OnPointerUp(PointerEventData eventData)
