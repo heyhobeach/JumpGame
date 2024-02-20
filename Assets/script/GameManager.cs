@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 class Score//json으로 변환할때 클래스 형식으로 변환 하려고
 {
-    public float highScore;
+   
 
 }
 
@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
 
     private static GameManager instance = null;
-
+    public float highScore;
+    public List<float> score;
     public static GameManager Instance
     {
         get
@@ -58,14 +59,14 @@ public class GameManager : MonoBehaviour
     public List<float> MakeScore()//점수 만들어서 리턴 할 예정
     {
         //Score _score = new Score();
-        List<float> score = new List<float>() { 0, 0 };//score[0]에는 현재 점수, score[1]에는 최고 점수
-        
+        score = new List<float>() { 0, 0 };//score[0]에는 현재 점수, score[1]에는 최고 점수
 
-        float high = CameraSet.cameraInstance.high;
-        score[0] = high;
-        if (high > PlayerPrefs.GetFloat("HighScore"))
+
+        highScore = CameraSet.cameraInstance.high;
+        score[0] = highScore;
+        if (highScore > PlayerPrefs.GetFloat("HighScore"))
         {
-            PlayerPrefs.SetFloat("HighScore", high);//여기 부터 최고 점수 저장 부분if문안에 있는건 전부 함수로 묶어도 괜찮음
+            PlayerPrefs.SetFloat("HighScore", highScore);//여기 부터 최고 점수 저장 부분if문안에 있는건 전부 함수로 묶어도 괜찮음
 
             //_score.highScore = high;
             //string jsonData = JsonUtility.ToJson(_score);
