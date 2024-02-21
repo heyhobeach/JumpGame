@@ -98,6 +98,7 @@ public class TestScript : MonoBehaviour
 
     private IEnumerator cooltimeCoroutine;
     private IEnumerator gravityCoroutine;
+    private IEnumerator slidingCorutine;
 
 
     void Start()
@@ -140,6 +141,7 @@ public class TestScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //rg2D.velocity = Vector2.left;
         Move2(player.GetDestinaion());
     }
     // Update is called once per frame
@@ -156,6 +158,7 @@ public class TestScript : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        isStay= true;//가만히 서있을때
         if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
             side = true;
@@ -213,8 +216,9 @@ public class TestScript : MonoBehaviour
             }
             else if(collsitonCount == maxCollsion - 1 && collision.gameObject.name != "Ground")
             {
+                StartCoroutine(Sliding(transform.position));//충돌 위치 
                 StickWall();
-                rg2D.gravityScale = scale;//중복되는 부분 빼도될듯해보임
+                //rg2D.gravityScale = scale;//중복되는 부분 빼도될듯해보임
                 return;
             }
 
@@ -254,14 +258,14 @@ public class TestScript : MonoBehaviour
     }
     private void OnTouchEvent()//터치를 통한 조작을 판단
     {
-        switch(TouchPanel.Instance.inputState)
+        switch(TempPanel.Instance.inputState)
         {
-            case TouchPanel.InputState.None:
+            case TempPanel.InputState.None:
 
             break;
-            case TouchPanel.InputState.Touch:
+            case TempPanel.InputState.Touch:
                 //if(!canTouch) break;
-                if (canTap)
+                if (canTap&&!isStay)
                 {
                     destination.x *= -1;
                     player.SetDestination(destination);
@@ -271,18 +275,18 @@ public class TestScript : MonoBehaviour
                 }
 
 
-                Debug.Log("터치");
+                //Debug.Log("터치");
 
                 //canTouch = false;
-                touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
+                //touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
             break;
-            case TouchPanel.InputState.Drag:
+            case TempPanel.InputState.Drag:
                 if(!canTouch) break;
                 Debug.Log("드래그");
                 IsTap = false;
                 canTap = true;
                 collsitonCount = 0;
-                destination = TouchPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
+                destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
                 destination = VectorCorrection(destination);
                 player.SetDestination(destination);
                 player.SetpreVec(destination);//이동 벡터 저장
@@ -290,7 +294,7 @@ public class TestScript : MonoBehaviour
                 rg2D.velocity = Vector2.zero;
                 rg2D.gravityScale = 0.0f;
 
-                Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+                //Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
@@ -304,7 +308,7 @@ public class TestScript : MonoBehaviour
             canTouch = false;
             side = false;
             break;
-            case TouchPanel.InputState.Hold:
+            case TempPanel.InputState.Hold:
 
             break;
             default:
@@ -339,6 +343,7 @@ public class TestScript : MonoBehaviour
         }
         else
         {
+            anim.SetBool("IsReflect", false);//스탠드 상태로 돌리기 위함
             anim.SetBool("IsJump", false);
         }
         transform.Translate(destination.normalized * speed * Time.deltaTime);
@@ -407,11 +412,14 @@ public class TestScript : MonoBehaviour
     private Vector2 VectorCorrection(Vector2 pos)//수정하긴해야하는데 수정된 상태로 들어가서 냅둔거임
     {
         float correctino_posy = 0.0f;
-        // float correctino_posx = 0.0f;
+        //float correctino_posx = 0.0f;
         if (pos.y <= 0)//0보다 작거나 같으면 보정
         {
             correctino_posy = 0.8f;
-        }
+        }//else if (pos.y <= 0.2f)//혹시나 너무 수평에 가깝게 드래그 했을경우
+        //{
+        //    pos.y = pos.y * 2;
+        //}
         else
         {
             correctino_posy = pos.y;
@@ -420,21 +428,64 @@ public class TestScript : MonoBehaviour
         return vector_correction;
     }
 
+    IEnumerator Sliding(Vector2 collisonPos)//얼음벽 생각해서 함수 따로 빼는것이 좋다고 생각했음
+    {
+        Vector2 endpos;
+        float delta = 0;//deltatime을 계속 더해줄 변수
+        float duration = 1;//몇 초 안에 가느냐 를 정하는 함수
+        bool groundIn = CameraSet.cameraInstance.CheackObjectInCamera(GameObject.Find("Ground"));//해당 부분 수정 필요
+        if (groundIn)
+        {
+            Debug.Log("아직 땅 있음");
+            endpos = new Vector2(collisonPos.x, -4.42f);//도착 지점 설정 -4.4 가 ground 있는곳
+        }
+        else
+        {
+            endpos = new Vector2(collisonPos.x, CameraSet.cameraInstance.Top.y-10f+0.5f);//도착 지점 설정 카메라 10은 카메라 크기 0.5는 캐릭터 크기
+        }
+       
+        Debug.Log("시작 지점 :" + collisonPos + "끝나는 지점 :" + endpos);
+
+        while (delta<=duration)
+        {
+            delta += Time.deltaTime;
+            float t = delta / duration;
+            //원하는 보간 수식
+            t= (t == 0 ? 0 : Mathf.Pow(2, 10 * t - 10));
+            Debug.Log(t);
+            transform.position = Vector2.Lerp(collisonPos, endpos, t);
+            //Debug.Log(Vector2.Lerp(collisonPos, endpos, t));
+            yield return null;
+        }
+        
+    }
+
     private void StickWall()//벽에 붙어서 미끄러지는 함수
     {
         float time = Time.time;
         StickWallAnim();
         player.SetDestination(HoldPossion());
-        if (time > 0.2)
-        {
-            rg2D.gravityScale += 0.01f;
-        }
-        else
-        {
-            rg2D.velocity = Vector2.zero;
-            rg2D.gravityScale = 0.0f;
-        }
+        rg2D.gravityScale = 0;
 
+        //if (time > 0.2)
+        //{
+        //    rg2D.gravityScale += 0.01f;
+        //}
+        //else
+        //{
+        //    rg2D.velocity = Vector2.zero;
+        //    rg2D.gravityScale = 0.0f;
+        //}
+
+
+
+    }
+
+    private void StickWallAnim()
+    {
+        anim.SetTrigger("IsStick");
+        anim.SetBool("IsReflect", false);
+        
     }
 
     private void StickWallAnim()
