@@ -156,6 +156,7 @@ public class TestScript : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        isStay= true;//가만히 서있을때
         if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
             side = true;
@@ -261,7 +262,7 @@ public class TestScript : MonoBehaviour
             break;
             case TempPanel.InputState.Touch:
                 //if(!canTouch) break;
-                if (canTap)
+                if (canTap&&!isStay)
                 {
                     destination.x *= -1;
                     player.SetDestination(destination);
@@ -271,10 +272,10 @@ public class TestScript : MonoBehaviour
                 }
 
 
-                Debug.Log("터치");
+                //Debug.Log("터치");
 
                 //canTouch = false;
-                touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
+                //touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
             break;
             case TempPanel.InputState.Drag:
                 if(!canTouch) break;
@@ -290,7 +291,7 @@ public class TestScript : MonoBehaviour
                 rg2D.velocity = Vector2.zero;
                 rg2D.gravityScale = 0.0f;
 
-                Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+                //Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
@@ -339,6 +340,7 @@ public class TestScript : MonoBehaviour
         }
         else
         {
+            anim.SetBool("IsReflect", false);//스탠드 상태로 돌리기 위함
             anim.SetBool("IsJump", false);
         }
         transform.Translate(destination.normalized * speed * Time.deltaTime);
@@ -407,7 +409,7 @@ public class TestScript : MonoBehaviour
     private Vector2 VectorCorrection(Vector2 pos)//수정하긴해야하는데 수정된 상태로 들어가서 냅둔거임
     {
         float correctino_posy = 0.0f;
-        float correctino_posx = 0.0f;
+        //float correctino_posx = 0.0f;
         if (pos.y <= 0)//0보다 작거나 같으면 보정
         {
             correctino_posy = 0.8f;
