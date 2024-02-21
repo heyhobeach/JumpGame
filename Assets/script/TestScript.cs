@@ -47,6 +47,9 @@ public class TestScript : MonoBehaviour
     private Vector2 position;
     private Rigidbody2D rg2D;
 
+    private SpriteRenderer spriteRenderer;
+    private Animator anim;
+
 
 
     private Vector2 startPos;//터시 시작시 x pos
@@ -64,18 +67,16 @@ public class TestScript : MonoBehaviour
 
     public bool isTouchBottom = false;
 
-    public float controllRatio = 33;
 
     public bool reflectTouch = false;//��ġ�� �ݻ� �ϴ� ����
 
-    public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단
+    public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단,변수 다시 정리 필요
 
     public bool isStay = false;
 
 
     float result = 0;
 
-    private float posDistance;
 
 
     private float dragCoolTime=0;//쿨타임 관련 변수
@@ -89,9 +90,9 @@ public class TestScript : MonoBehaviour
 
     public bool uiTouched = false;//UI 터치 했는지 판단하는 부분
 
-    public bool isDrag = false;
+    public bool canTap = true;//구르기를 한번만 할 수 있도록 벽에 붙으면 true로 초기화
 
-    public bool uiCheack = false;
+    public bool IsTap = false;//구르기와 일반 점프를 구분하기 위해 넣은 변수
 
     public bool side = false;
 
@@ -106,9 +107,12 @@ public class TestScript : MonoBehaviour
         position = transform.position;
         //Debug.Log(CameraSet.cameraInstance.GetStartYpos());
 
+        spriteRenderer=GetComponent<SpriteRenderer>();//SpriteRenderer 컴포넌트 가져옴
+        anim = GetComponent<Animator>();//animator 컴포넌트 가져옴
+
         rg2D = GetComponent<Rigidbody2D>();
         rg2D.gravityScale = 0.2f;
-        transform.localScale = new Vector2(0.5f, 0.5f);// 해상도 비율에 맞게 크기 조절 근데 캔버스가 있음
+        //transform.localScale = new Vector2(0.5f, 0.5f);// 해상도 비율에 맞게 크기 조절 근데 캔버스가 있음
         canTouch= false;
 
         cooltimeCoroutine = DragCooltime();//함수로 묶을까?
@@ -142,12 +146,7 @@ public class TestScript : MonoBehaviour
     void Update()
     {
         OnTouchEvent();
-        
-        // if (uiCheack)
-        // {
-        //     Debug.Log("Ui체크");
-        //     GameManager.Instance.PopupHandler();
-        // }
+
     }
 
     public float setGravity()
@@ -157,26 +156,14 @@ public class TestScript : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //Debug.Log("stay");
-        //if (isTouchBottom)//���Ұ� Ʈ��� �¿찡 ���̶�� 
-        //{
-        //    //Debug.Log("붙어 있는 객체 이름 :" + collision.gameObject.name);
         if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
             side = true;
         }
-        //    isStay = false;
-        //}
-        //else
-        //{
-        //    isStay = true;
-        //}
-        
-        //isStay = true;
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Debug.Log("Exit");
+        Debug.Log("Exit");
         isTouchBottom = false;
         //side = false;
         isWallHit = false;
@@ -184,27 +171,29 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
-        // Debug.Log(collsitonCount);
+        //Debug.Log(collsitonCount);
+        IsTap = false;
         if (collision.gameObject.name != "Ground") 
         {
             result = collision.GetContact(0).point.x - collision.transform.position.x;
+            anim.ResetTrigger("StandTrigger");//트리거가 남아있던 현상 풀기위함
 
         }
 
-        // Debug.Log(collision.gameObject.name);
+        Debug.Log(collision.gameObject.name);
 
 
         if (collision.gameObject.GetComponentInChildren<ObjectManager>() != null)
         {
-            // Debug.Log("오브젝트 매니저가 있음");
+            Debug.Log("오브젝트 매니저가 있음");
             switch (collision.gameObject.GetComponent<ObjectManager>().type)
             {
                 case WallType.DEAD_WALL:
-                    // Debug.Log("스위치 데드월");
+                    Debug.Log("스위치 데드월");
                     GameManager.Instance.Dead();
                     break;
                 default:
-                    // Debug.Log("디폴트");
+                    Debug.Log("디폴트");
                     break;
             }
         }
@@ -213,8 +202,8 @@ public class TestScript : MonoBehaviour
 
         if (collision.gameObject.tag == "border")
         {
-            // Debug.Log(collision.gameObject.name);
-
+            Debug.Log(collision.gameObject.name);
+            destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
             if (collsitonCount < maxCollsion -1&&collision.gameObject.name!= "Ground")//�浹Ƚ��
             {
                 collsitonCount++;
@@ -230,7 +219,7 @@ public class TestScript : MonoBehaviour
             }
 
             isWallHit = true;//벽에 충돌할경우 해당 라인이 있어야 만약 다시 터치 가능한 범위? 안에서 충돌일어나 다시 잡을경우를 위한것
-            destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
+            //destination = Vector2.Reflect(destination, collision.GetContact(0).normal).normalized;//충돌시 전반사로 벡터 방향 수정
             player.SetDestination(destination);
             canTouch = true;
             dragCoolTime = 0;
@@ -244,6 +233,8 @@ public class TestScript : MonoBehaviour
                 case "Ground":
                     isTouchBottom = true;
                     player.SetDestination(HoldPossion());
+                    anim.SetBool("IsJunp", false);//바닥에 닿으면 일반 상태로 돌리기 위함
+                    anim.SetTrigger("StandTrigger");
                     //GameManager.Instance.Dead();
                     //result = 0;
                     //isStop = true;
@@ -263,32 +254,43 @@ public class TestScript : MonoBehaviour
     }
     private void OnTouchEvent()//터치를 통한 조작을 판단
     {
-        switch(TouchPanel.Instance.inputState)
+        switch(TempPanel.Instance.inputState)
         {
-            case TouchPanel.InputState.None:
+            case TempPanel.InputState.None:
 
             break;
-            case TouchPanel.InputState.Touch:
-            if(!canTouch) break;
-            destination.x *= -1;
-            player.SetDestination(destination);
-            reflectTouch = true;
+            case TempPanel.InputState.Touch:
+                //if(!canTouch) break;
+                if (canTap)
+                {
+                    destination.x *= -1;
+                    player.SetDestination(destination);
+                    reflectTouch = true;
+                    IsTap = true;
+                    canTap = false;
+                }
 
-            canTouch = false;
-            touchStart = false;
+
+                Debug.Log("터치");
+
+                //canTouch = false;
+                touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
             break;
-            case TouchPanel.InputState.Drag:
-            if(!canTouch) break;
-            collsitonCount = 0;
-            destination = TouchPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
-            destination = VectorCorrection(destination);
-            player.SetDestination(destination);
-            player.SetpreVec(destination);//이동 벡터 저장
+            case TempPanel.InputState.Drag:
+                if(!canTouch) break;
+                Debug.Log("드래그");
+                IsTap = false;
+                canTap = true;
+                collsitonCount = 0;
+                destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
+                destination = VectorCorrection(destination);
+                player.SetDestination(destination);
+                player.SetpreVec(destination);//이동 벡터 저장
 
-            rg2D.velocity = Vector2.zero;
-            rg2D.gravityScale = 0.0f;
+                rg2D.velocity = Vector2.zero;
+                rg2D.gravityScale = 0.0f;
 
-            // Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+                Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
@@ -302,7 +304,7 @@ public class TestScript : MonoBehaviour
             canTouch = false;
             side = false;
             break;
-            case TouchPanel.InputState.Hold:
+            case TempPanel.InputState.Hold:
 
             break;
             default:
@@ -315,8 +317,33 @@ public class TestScript : MonoBehaviour
 
     public void Move2(Vector2 destination)
     {
+        if (destination.normalized.x < 0)//좌측으로 이동할때, 함수로 묶을까함
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if(destination.normalized.x > 0)
+        {
+          spriteRenderer.flipX = false;
+        }
+        if(destination!=new Vector2(0,0))
+        { 
+            anim.SetBool("IsJump", true);//움직이는 애니메이션 넣는것
+            if (IsTap)
+            {
+                anim.SetBool("IsReflect", true);
+            }
+            else
+            {
+                anim.SetBool("IsReflect", false);
+            }
+        }
+        else
+        {
+            anim.SetBool("IsJump", false);
+        }
         transform.Translate(destination.normalized * speed * Time.deltaTime);
     }
+
 
     IEnumerator DragCooltime()
     {
@@ -354,7 +381,7 @@ public class TestScript : MonoBehaviour
                     rg2D.gravityScale = scale;//중력설정
                     touchStart= true;
                     gravityCoolTime = 0;
-                    // Debug.Log("충돌 없는 중력");
+                    Debug.Log("충돌 없는 중력");
 
                 }
             }
@@ -363,110 +390,6 @@ public class TestScript : MonoBehaviour
 
             yield return null;
 
-        }
-
-    }
-
-    private void HandleTouchBegan(Touch touch)
-    {
-        touchStart = true;
-        isTouchBottom = false;
-        gravityCoolTime = 0;
-        startPos = Camera.main.ScreenToWorldPoint(touch.position);
-        startPos.y -= CameraSet.cameraInstance.GetCurrentYpos() - CameraSet.cameraInstance.GetStartYpos();//ī�޶� Y��ǥ�� ���� ����ؼ� ���� ��ġ�� �� ������ ��� ���� ȭ���� ��ġ �ϵ��� ����
-        //Debug.Log("���� :" + startPos);
-    }
-
-    /*private void Shoot()//현재 사용하지 않음
-    {
-        Debug.Log("shoot");
-        startPos = Vector2.zero;
-        touchStart = true;//단순 터치기에 
-        grabTime = 0;
-        canTouch = false;
-        endPos = new Vector2(startPos.x, 5);//혹시 screenYpos의 값이 -가 나는건가
-        grabCoolTime += Time.deltaTime;//쿨타임 더하기
-        //Debug.Log(string.Format("도형 위치 {0} 화면 끝{1} 목표 지점 {2}", startPos, 5, endPos));
-        speed = 5;
-        destination = new Vecotor2(0.0,1.0f).normalized;//여기를 지우면 그냥 떨어짐
-        Debug.Log("shoot" + destination);
-        //startPos = Vector2.zero;
-        //endPos = Vector2.zero;
-        rg2D.gravityScale = setGravityScale();
-        return;
-
-    }*/
-
-    private void HandleTouchEnd(Touch touch)//현재 사용안함
-    {
-        if (uiTouched)//ui일때
-        {
-            Debug.Log("UI 터치로 종료");
-            uiTouched = false;
-            return;
-        }
-        else//ui부분이 아닐때 
-        {
-            //if (isDrag)
-            //{
-            touchStart = false;
-            isTouchBottom = false;
-            
-            speed = 6f;//���� ���� ������ ���� �����̴ϱ� ����
-                       //rg2D.gravityScale = setGravityScale();
-                       //만약 velocity이동이라면 100정도는 줘야함
-
-            endPos = Camera.main.ScreenToWorldPoint(touch.position);
-            endPos.y -= CameraSet.cameraInstance.GetCurrentYpos() - CameraSet.cameraInstance.GetStartYpos();
-            posDistance = Vector2.Distance(startPos, endPos);
-            //}
-            collsitonCount = 0;
-            if (posDistance < 0.2)//�Ÿ��� ª���� reflectTouch�� false�϶� ����
-            {
-                
-                //destination = Vector2.Reflect(player.GetPreVec(), endPos).normalized;
-                if (!reflectTouch)
-                {
-                    destination.x *= -1;
-                    player.SetDestination(destination);
-                    reflectTouch = true;
-                }
-                else
-                {
-                    return;
-                }
-
-
-            }
-            else   
-            {
-                if (canTouch)
-                {
-                    canTouch = false;
-                    reflectTouch = false;//��ġ�� �ݻ�
-                    destination = (endPos - startPos).normalized;//���� �ڵ�� ȭ�� ��� ��ġ �ϴ��� ���� �̵� ���⿡ ���� ������
-                    destination = VectorCorrection(destination);
-                    player.SetDestination(destination);
-                    player.SetpreVec(destination);//�̵� ���� ����
-
-                    rg2D.velocity = Vector2.zero;
-                    rg2D.gravityScale = 0.0f;
-                    //Debug.Log("x ����" + player.GetDestinaion().x);
-
-
-
-                    Debug.Log(Mathf.Sign(destination.x) + " : " + Mathf.Sign(result));
-                    if (isStay && Mathf.Sign(destination.x) != Mathf.Sign(result))//
-                    {
-                        Debug.Log(player.GetDestinaion());
-                        destination.x *= -1;
-                        //player.SetDestination(new Vector2(1, 1));
-                        player.SetDestination(destination);
-                        collsitonCount++;
-                    }
-                }
-            }
-            isDrag = false;
         }
 
     }
@@ -500,6 +423,7 @@ public class TestScript : MonoBehaviour
     private void StickWall()//벽에 붙어서 미끄러지는 함수
     {
         float time = Time.time;
+        StickWallAnim();
         player.SetDestination(HoldPossion());
         if (time > 0.2)
         {
@@ -511,6 +435,13 @@ public class TestScript : MonoBehaviour
             rg2D.gravityScale = 0.0f;
         }
 
+    }
+
+    private void StickWallAnim()
+    {
+        anim.SetTrigger("IsStick");
+        anim.SetBool("IsReflect", false);
+        
     }
 
 
