@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 4034289901518533825}
   - component: {fileID: 4631184071140369251}
   - component: {fileID: 8899268909074414945}
+  - component: {fileID: 8084131874598191181}
   m_Layer: 5
   m_Name: Game Over Canvas
   m_TagString: Untagged
@@ -370,6 +371,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8084131874598191181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2180363896796732833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e2d477667a0654886d57bc09669032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  retry: {fileID: 8389489299199042543}
+  lobby: {fileID: 152874805123931169}
+  scoreText: {fileID: 5639391221601148826}
+  highScoreText: {fileID: 3599704899199917214}
 --- !u!1 &3088363902234721439
 GameObject:
   m_ObjectHideFlags: 0

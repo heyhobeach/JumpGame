@@ -58,7 +58,7 @@ public class CameraSet : MonoBehaviour
       {
         Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
         Debug.Log(Top);
-        Debug.Log(CheackObjectInCamera(gameobject));
+        // Debug.Log(CheackObjectInCamera(gameobject));
     //    Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.));
     //    bottom = -Top;
     //

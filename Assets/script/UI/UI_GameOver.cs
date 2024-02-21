@@ -24,7 +24,7 @@ public class UI_GameOver : PopUp
 
     public override void EscPopUp()
     {
-        GameManager.Retry();
+        GameManager.Play();
     }
 
     protected new void OnEnable()

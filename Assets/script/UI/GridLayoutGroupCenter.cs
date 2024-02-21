@@ -5,21 +5,43 @@ using UnityEngine.UI;
 
 /*
     출처 : https://github.com/mrbeardy/BeardyGridLayout
-    해상도에 따라 동적으로 cell size 변경 기능 추가 예정
 */
 
 [AddComponentMenu("Layout/Grid Layout Group Center")]
 public class GridLayoutGroupCenter : GridLayoutGroup
 {
-    public override void SetLayoutHorizontal()
+    public new Vector2 cellSize
     {
-        SetCellsAlongAxis(0);
+        get
+        {
+            return m_CellSize * DynamicSizeCalc();
+        }
+        set
+        {
+            SetProperty(ref m_CellSize, value );
+        }
     }
 
-    public override void SetLayoutVertical()
+    public new Vector2 spacing
     {
-        SetCellsAlongAxis(1);
+        get
+        {
+            return m_Spacing * DynamicSizeCalc();
+        }
+        set
+        {
+            SetProperty(ref m_Spacing, value);
+        }
     }
+
+    private float DynamicSizeCalc()
+    {
+        return (float)((double)Screen.height / 2340);
+    }
+
+    public override void SetLayoutHorizontal() => SetCellsAlongAxis(0);
+
+    public override void SetLayoutVertical() => SetCellsAlongAxis(1);
 
     private void SetCellsAlongAxis(int axis)
     {

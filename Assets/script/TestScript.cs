@@ -258,12 +258,12 @@ public class TestScript : MonoBehaviour
     }
     private void OnTouchEvent()//터치를 통한 조작을 판단
     {
-        switch(TempPanel.Instance.inputState)
+        switch(TouchPanel.Instance.inputState)
         {
-            case TempPanel.InputState.None:
+            case TouchPanel.InputState.None:
 
             break;
-            case TempPanel.InputState.Touch:
+            case TouchPanel.InputState.Touch:
                 //if(!canTouch) break;
                 if (canTap&&!isStay)
                 {
@@ -280,13 +280,13 @@ public class TestScript : MonoBehaviour
                 //canTouch = false;
                 //touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
             break;
-            case TempPanel.InputState.Drag:
+            case TouchPanel.InputState.Drag:
                 if(!canTouch) break;
                 Debug.Log("드래그");
                 IsTap = false;
                 canTap = true;
                 collsitonCount = 0;
-                destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
+                destination = TouchPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
                 destination = VectorCorrection(destination);
                 player.SetDestination(destination);
                 player.SetpreVec(destination);//이동 벡터 저장
@@ -308,7 +308,7 @@ public class TestScript : MonoBehaviour
             canTouch = false;
             side = false;
             break;
-            case TempPanel.InputState.Hold:
+            case TouchPanel.InputState.Hold:
 
             break;
             default:
@@ -487,13 +487,4 @@ public class TestScript : MonoBehaviour
         anim.SetBool("IsReflect", false);
         
     }
-
-    private void StickWallAnim()
-    {
-        anim.SetTrigger("IsStick");
-        anim.SetBool("IsReflect", false);
-        
-    }
-
-
 }
