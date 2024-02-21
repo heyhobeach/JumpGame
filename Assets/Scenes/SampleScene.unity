@@ -1598,7 +1598,7 @@ MonoBehaviour:
   canTouch: 1
   uiTouched: 0
   isDrag: 0
-  uiCheack: 0
+  IsTap: 0
   side: 0
 --- !u!95 &883596408
 Animator:

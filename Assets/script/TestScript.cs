@@ -70,14 +70,13 @@ public class TestScript : MonoBehaviour
 
     public bool reflectTouch = false;//��ġ�� �ݻ� �ϴ� ����
 
-    public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단
+    public bool touchStart = true;//손을 떼고 조작하는건지 아닌지 판단,변수 다시 정리 필요
 
     public bool isStay = false;
 
 
     float result = 0;
 
-    private float posDistance;
 
 
     private float dragCoolTime=0;//쿨타임 관련 변수
@@ -91,9 +90,9 @@ public class TestScript : MonoBehaviour
 
     public bool uiTouched = false;//UI 터치 했는지 판단하는 부분
 
-    public bool isDrag = false;
+    public bool canTap = true;//구르기를 한번만 할 수 있도록 벽에 붙으면 true로 초기화
 
-    public bool uiCheack = false;
+    public bool IsTap = false;//구르기와 일반 점프를 구분하기 위해 넣은 변수
 
     public bool side = false;
 
@@ -148,13 +147,6 @@ public class TestScript : MonoBehaviour
     {
         OnTouchEvent();
 
-        
-        if (uiCheack)
-        {
-            Debug.Log("Ui체크");
-            GameManager.Instance.PopupHandler();
-        }
-
     }
 
     public float setGravity()
@@ -164,22 +156,10 @@ public class TestScript : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //Debug.Log("stay");
-        //if (isTouchBottom)//���Ұ� Ʈ��� �¿찡 ���̶�� 
-        //{
-        //    //Debug.Log("붙어 있는 객체 이름 :" + collision.gameObject.name);
         if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
             side = true;
         }
-        //    isStay = false;
-        //}
-        //else
-        //{
-        //    isStay = true;
-        //}
-        
-        //isStay = true;
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -191,7 +171,8 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)//충돌시 발생
     {
-        Debug.Log(collsitonCount);
+        //Debug.Log(collsitonCount);
+        IsTap = false;
         if (collision.gameObject.name != "Ground") 
         {
             result = collision.GetContact(0).point.x - collision.transform.position.x;
@@ -279,28 +260,37 @@ public class TestScript : MonoBehaviour
 
             break;
             case TempPanel.InputState.Touch:
-            if(!canTouch) break;
-            destination.x *= -1;
-            player.SetDestination(destination);
-            reflectTouch = true;
+                //if(!canTouch) break;
+                if (canTap)
+                {
+                    destination.x *= -1;
+                    player.SetDestination(destination);
+                    reflectTouch = true;
+                    IsTap = true;
+                    canTap = false;
+                }
+
+
                 Debug.Log("터치");
 
-            //canTouch = false;
-            touchStart = false;
+                //canTouch = false;
+                touchStart = false;//해당부분 수정이 필요할듯,구르기도 중력 시간 이 필요할까 싶어서 그리고 중복되는것같음
             break;
             case TempPanel.InputState.Drag:
-            if(!canTouch) break;
-            Debug.Log("드래그");
-            collsitonCount = 0;
-            destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
-            destination = VectorCorrection(destination);
-            player.SetDestination(destination);
-            player.SetpreVec(destination);//이동 벡터 저장
+                if(!canTouch) break;
+                Debug.Log("드래그");
+                IsTap = false;
+                canTap = true;
+                collsitonCount = 0;
+                destination = TempPanel.Instance.dir;//현재 코드는 화면 어디를 터치 하더라도 같은 이동 방향에 따라 움직임
+                destination = VectorCorrection(destination);
+                player.SetDestination(destination);
+                player.SetpreVec(destination);//이동 벡터 저장
 
-            rg2D.velocity = Vector2.zero;
-            rg2D.gravityScale = 0.0f;
+                rg2D.velocity = Vector2.zero;
+                rg2D.gravityScale = 0.0f;
 
-            Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
+                Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�
             {
                 Debug.Log(player.GetDestinaion());
@@ -327,7 +317,7 @@ public class TestScript : MonoBehaviour
 
     public void Move2(Vector2 destination)
     {
-        if (destination.normalized.x < 0)//좌측으로 이동할때
+        if (destination.normalized.x < 0)//좌측으로 이동할때, 함수로 묶을까함
         {
             spriteRenderer.flipX = true;
         }
@@ -335,9 +325,17 @@ public class TestScript : MonoBehaviour
         {
           spriteRenderer.flipX = false;
         }
-        if(destination!=new Vector2(0,0)) 
-        {
+        if(destination!=new Vector2(0,0))
+        { 
             anim.SetBool("IsJump", true);//움직이는 애니메이션 넣는것
+            if (IsTap)
+            {
+                anim.SetBool("IsReflect", true);
+            }
+            else
+            {
+                anim.SetBool("IsReflect", false);
+            }
         }
         else
         {
@@ -443,7 +441,7 @@ public class TestScript : MonoBehaviour
     {
         anim.SetTrigger("IsStick");
         anim.SetBool("IsReflect", false);
-
+        
     }
 
 
