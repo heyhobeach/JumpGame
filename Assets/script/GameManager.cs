@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     //public GameObject player;
     public Stack<PopUp> popUps = new();
-    public Action escapeEvent { get; private set; }
+    public Action escapeEvent { get; set; }
 
     public GameObject optionCanvas { get; private set; }
     public GameObject confirmCanvas { get; private set; }
@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
         if(escapeOption != null) ao.completed += (x)=>{ GameManager.instance.escapeEvent = escapeOption; };
     }
     public static void Retry() => LoadScene("SampleScene", new PauseMenu()); //재시작 함수
-
     public static void Lobby() => LoadScene("Lobby", new AppQuit());//로비로 돌아가는함수
 
 }

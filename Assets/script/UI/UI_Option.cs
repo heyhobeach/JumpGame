@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Build.Player;
 
 public class UI_Option : PopUp
 {
     [SerializeField] private TMP_Text infoText;
+    [SerializeField] private TMP_Text versionText;
     [SerializeField] private Button escButton;
     [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button[] optionButtons;
@@ -18,6 +20,7 @@ public class UI_Option : PopUp
     void Awake()
     {
         escButton.onClick.AddListener(EscPopUp);
+        versionText.text = "Current Version. " + Application.version;
     }
 
     public override void EscPopUp()

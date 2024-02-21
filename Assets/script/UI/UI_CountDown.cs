@@ -11,7 +11,8 @@ public class UI_CountDown : PopUp
 
     protected new void OnEnable()
     {
-        base.OnEnable();
+        // base.OnEnable();
+        GameManager.Instance.escapeEvent = null;
         StartCoroutine("CountDown");
     }
 
@@ -31,5 +32,6 @@ public class UI_CountDown : PopUp
     public override void EscPopUp()
     {
         StopCoroutine("CountDown");
+        GameManager.Instance.escapeEvent = new PauseMenu();
     }
 }
