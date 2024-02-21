@@ -13,7 +13,7 @@ public class NewBehaviourScript1 : MonoBehaviour
 
     private void Scrolling()
     {
-        Debug.Log("최고 높이 "+ CameraSet.cameraInstance.high + "스크롤 높이"+scrollhigh);
+        //Debug.Log("최고 높이 "+ CameraSet.cameraInstance.high + "스크롤 높이"+scrollhigh);
         if(CameraSet.cameraInstance.high > scrollhigh)
         {
             j = i - 1;
@@ -23,13 +23,13 @@ public class NewBehaviourScript1 : MonoBehaviour
                 i = 0;
             }
             temp = background[i];
-            Debug.Log("i =" + i + "j =" + j);
+            //Debug.Log("i =" + i + "j =" + j);
             background[i].position = new Vector3(background[j].position.x, background[j].position.y + 49,10);
             //background[j] = temp;
 
             scrollhigh +=49;
             i++;
-            Debug.Log("스크롤링");
+            //Debug.Log("스크롤링");
         }
     }
 

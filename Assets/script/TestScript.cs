@@ -98,6 +98,7 @@ public class TestScript : MonoBehaviour
 
     private IEnumerator cooltimeCoroutine;
     private IEnumerator gravityCoroutine;
+    private IEnumerator slidingCorutine;
 
 
     void Start()
@@ -121,6 +122,8 @@ public class TestScript : MonoBehaviour
 
         gravityCoroutine = GravityTime();
         StartCoroutine(gravityCoroutine);
+
+
         transform.position = CameraSet.cameraInstance.bottom;
         //touchPosx = transform.localPosition.x;
         //screenYpos = CameraSet.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
@@ -140,6 +143,7 @@ public class TestScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //rg2D.velocity = Vector2.left;
         Move2(player.GetDestinaion());
     }
     // Update is called once per frame
@@ -214,8 +218,9 @@ public class TestScript : MonoBehaviour
             }
             else if(collsitonCount == maxCollsion - 1 && collision.gameObject.name != "Ground")
             {
+                StartCoroutine(Sliding(transform.position));//충돌 위치 
                 StickWall();
-                rg2D.gravityScale = scale;//중복되는 부분 빼도될듯해보임
+                //rg2D.gravityScale = scale;//중복되는 부분 빼도될듯해보임
                 return;
             }
 
@@ -413,7 +418,10 @@ public class TestScript : MonoBehaviour
         if (pos.y <= 0)//0보다 작거나 같으면 보정
         {
             correctino_posy = 0.8f;
-        }
+        }//else if (pos.y <= 0.2f)//혹시나 너무 수평에 가깝게 드래그 했을경우
+        //{
+        //    pos.y = pos.y * 2;
+        //}
         else
         {
             correctino_posy = pos.y;
@@ -422,20 +430,56 @@ public class TestScript : MonoBehaviour
         return vector_correction;
     }
 
+    IEnumerator Sliding(Vector2 collisonPos)//얼음벽 생각해서 함수 따로 빼는것이 좋다고 생각했음
+    {
+        Vector2 endpos;
+        float delta = 0;//deltatime을 계속 더해줄 변수
+        float duration = 1;//몇 초 안에 가느냐 를 정하는 함수
+        bool groundIn = CameraSet.cameraInstance.CheackObjectInCamera(GameObject.Find("Ground"));//해당 부분 수정 필요
+        if (groundIn)
+        {
+            Debug.Log("아직 땅 있음");
+            endpos = new Vector2(collisonPos.x, -4.42f);//도착 지점 설정 -4.4 가 ground 있는곳
+        }
+        else
+        {
+            endpos = new Vector2(collisonPos.x, CameraSet.cameraInstance.Top.y-10f+0.5f);//도착 지점 설정 카메라 10은 카메라 크기 0.5는 캐릭터 크기
+        }
+       
+        Debug.Log("시작 지점 :" + collisonPos + "끝나는 지점 :" + endpos);
+
+        while (delta<=duration)
+        {
+            delta += Time.deltaTime;
+            float t = delta / duration;
+            //원하는 보간 수식
+            t= (t == 0 ? 0 : Mathf.Pow(2, 10 * t - 10));
+            Debug.Log(t);
+            transform.position = Vector2.Lerp(collisonPos, endpos, t);
+            //Debug.Log(Vector2.Lerp(collisonPos, endpos, t));
+            yield return null;
+        }
+        
+    }
+
     private void StickWall()//벽에 붙어서 미끄러지는 함수
     {
         float time = Time.time;
         StickWallAnim();
         player.SetDestination(HoldPossion());
-        if (time > 0.2)
-        {
-            rg2D.gravityScale += 0.01f;
-        }
-        else
-        {
-            rg2D.velocity = Vector2.zero;
-            rg2D.gravityScale = 0.0f;
-        }
+        rg2D.gravityScale = 0;
+
+        //if (time > 0.2)
+        //{
+        //    rg2D.gravityScale += 0.01f;
+        //}
+        //else
+        //{
+        //    rg2D.velocity = Vector2.zero;
+        //    rg2D.gravityScale = 0.0f;
+        //}
+
+
 
     }
 

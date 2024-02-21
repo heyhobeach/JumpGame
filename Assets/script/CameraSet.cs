@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class CameraSet : MonoBehaviour
@@ -12,6 +13,9 @@ public class CameraSet : MonoBehaviour
     public  Vector2 bottom;
     public  static CameraSet cameraInstance;
     public TestScript player;
+    public Vector2 Top;
+
+    public GameObject gameobject;
 
     [Range(0, 10)]
     public float smoothSpeed=2;//카메라가 따라오는속도 조절하는변수
@@ -26,7 +30,7 @@ public class CameraSet : MonoBehaviour
         cameraZpos = transform.position.z;
         Vector2 Right = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
         Vector2 Left = -Right;
-        Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
         bottom = -Top;
         startYpos = transform.position.y;
         //limitPos = Bottom.y - cameraZpos * ratio;
@@ -49,6 +53,17 @@ public class CameraSet : MonoBehaviour
             follow();
         }
     }
+
+      private void Update()
+      {
+        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        Debug.Log(Top);
+        Debug.Log(CheackObjectInCamera(gameobject));
+    //    Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.));
+    //    bottom = -Top;
+    //
+    //    Debug.Log(bottom);
+      }
 
     private void setupCamera()
     {
@@ -85,6 +100,15 @@ public class CameraSet : MonoBehaviour
     public float GetCurrentYpos()
     {
         return transform.position.y;
+    }
+
+    public bool CheackObjectInCamera(GameObject gameObject)
+    {
+        bool isIn = true;
+        Vector3 offset = new Vector3(0, 0.4f,0);//바닥 스케일
+        Vector3 screePoint =Camera.main.WorldToViewportPoint(gameObject.transform.position+offset);
+        isIn= screePoint.x >0&& screePoint.y > 0 && screePoint.x<1&&screePoint.y<1&&screePoint.z>0;
+        return isIn;
     }
 
     // Update is called once per frame
