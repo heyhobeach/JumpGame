@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class CameraSet : MonoBehaviour
 {
-    public  float cameraZpos;//ÀüºÎ ½ºÅ×Æ½À¸·Î ÇÒ ÇÊ¿ä¾ø¾ú°í ±×³É Ä«¸Ş¶ó ÀÎ½ºÅÏ½º ¸¸µé¾î¼­ °¡´É °ñµå¸ŞÅ» ¹«ÇÑ¹è°æ19:28ÃÊ Âü°í
+    public  float cameraZpos;//ì „ë¶€ ìŠ¤í…Œí‹±ìœ¼ë¡œ í•  í•„ìš”ì—†ì—ˆê³  ê·¸ëƒ¥ ì¹´ë©”ë¼ ì¸ìŠ¤í„´ìŠ¤ ë§Œë“¤ì–´ì„œ ê°€ëŠ¥ ê³¨ë“œë©”íƒˆ ë¬´í•œë°°ê²½19:28ì´ˆ ì°¸ê³ 
     //public float ratio=0.33f;
 
     private float startYpos;
@@ -12,9 +13,12 @@ public class CameraSet : MonoBehaviour
     public  Vector2 bottom;
     public  static CameraSet cameraInstance;
     public TestScript player;
+    public Vector2 Top;
+
+    public GameObject gameobject;
 
     [Range(0, 10)]
-    public float smoothSpeed=2;//Ä«¸Ş¶ó°¡ µû¶ó¿À´Â¼Óµµ Á¶ÀıÇÏ´Âº¯¼ö
+    public float smoothSpeed=2;//ì¹´ë©”ë¼ê°€ ë”°ë¼ì˜¤ëŠ”ì†ë„ ì¡°ì ˆí•˜ëŠ”ë³€ìˆ˜
     public float high = 0;
 
     [Range(0, 1)]
@@ -26,7 +30,7 @@ public class CameraSet : MonoBehaviour
         cameraZpos = transform.position.z;
         Vector2 Right = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
         Vector2 Left = -Right;
-        Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
         bottom = -Top;
         startYpos = transform.position.y;
         //limitPos = Bottom.y - cameraZpos * ratio;
@@ -38,14 +42,56 @@ public class CameraSet : MonoBehaviour
     {
         //Screen.SetResolution(1848, 2960, true);
         cameraInstance = this;
-        Screen.SetResolution(924, 1480 , true);
+        setupCamera();
+        //Screen.SetResolution(1080, 2340, true);//í‘œê¸°ë˜ì–´ìˆëŠ” í•´ìƒë„
+        //Screen.SetResolution(924, 1480 , true);
     }
     private void FixedUpdate()
     {
-        if (Camera.main.WorldToViewportPoint(player.transform.position).y>0.3)//0.3º¸´Ù Å©´Ù¸é
+        if (Camera.main.WorldToViewportPoint(player.transform.position).y>0.3)//0.3ë³´ë‹¤ í¬ë‹¤ë©´
         {
             follow();
         }
+    }
+
+      private void Update()
+      {
+        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        Debug.Log(Top);
+        // Debug.Log(CheackObjectInCamera(gameobject));
+    //    Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.));
+    //    bottom = -Top;
+    //
+    //    Debug.Log(bottom);
+      }
+
+    private void setupCamera()
+    {
+        //float targetWidthAspect = 6f;//ê°€ë¡œë¹„ìœ¨
+        //float targetHightAspect = 19f;//ì„¸ë¡œë¹„ìœ¨
+
+        float targetWidthAspect = 6f;//ê°€ë¡œë¹„ìœ¨
+        float targetHightAspect = 13f;//ì„¸ë¡œë¹„ìœ¨
+
+        Camera camera = Camera.main;
+
+        float widthRatio = (float)Screen.width / targetWidthAspect;
+        float heightRatio = (float)Screen.height / targetHightAspect;
+
+        float heightadd = ((widthRatio / (heightRatio / 100)) - 100) / 200;
+        float widthtadd = ((heightRatio / (widthRatio / 100)) - 100) / 200;
+
+        if (heightRatio > widthRatio)
+            widthtadd = 0.0f;
+        else
+            heightadd = 0.0f;
+
+
+        camera.rect = new Rect(
+            camera.rect.x + Mathf.Abs(widthtadd),
+            camera.rect.y + Mathf.Abs(heightadd),
+            camera.rect.width + (widthtadd * 2),
+            camera.rect.height + (heightadd * 2));
     }
 
     public float GetStartYpos() { 
@@ -54,6 +100,15 @@ public class CameraSet : MonoBehaviour
     public float GetCurrentYpos()
     {
         return transform.position.y;
+    }
+
+    public bool CheackObjectInCamera(GameObject gameObject)
+    {
+        bool isIn = true;
+        Vector3 offset = new Vector3(0, 0.4f,0);//ë°”ë‹¥ ìŠ¤ì¼€ì¼
+        Vector3 screePoint =Camera.main.WorldToViewportPoint(gameObject.transform.position+offset);
+        isIn= screePoint.x >0&& screePoint.y > 0 && screePoint.x<1&&screePoint.y<1&&screePoint.z>0;
+        return isIn;
     }
 
     // Update is called once per frame
@@ -65,7 +120,7 @@ public class CameraSet : MonoBehaviour
             high = player.transform.position.y;
         }
         Vector3 tragetPosition = new Vector3(0,high,0) + offset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, smoothSpeed * Time.fixedDeltaTime);//·¯ÇÁ Æ¯Â¡¶§¹®¿¡ ±¦ÂúÀº°¡?
+        Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, smoothSpeed * Time.fixedDeltaTime);//ëŸ¬í”„ íŠ¹ì§•ë•Œë¬¸ì— ê´œì°®ì€ê°€?
         transform.position = smoothPosition;
     }
 }
