@@ -17,7 +17,7 @@ public class CameraSet : MonoBehaviour
 
     public GameObject gameobject;
 
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float smoothSpeed=2;//카메라가 따라오는속도 조절하는변수
     public float high = 0;
 
@@ -48,7 +48,7 @@ public class CameraSet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Camera.main.WorldToViewportPoint(player.transform.position).y>0.3)//0.3보다 크다면
+        if (Camera.main.WorldToViewportPoint(player.transform.position).y>ratio)//0.3보다 크다면
         {
             follow();
         }
@@ -118,9 +118,21 @@ public class CameraSet : MonoBehaviour
         if (high < player.transform.position.y)
         {
             high = player.transform.position.y;
-        }
-        Vector3 tragetPosition = new Vector3(0,high,0) + offset;
+        }//카메라 비율 high가 현재 화면에서 어느 위치인지 그리고 최대치를 설정함 비율 화면
+        //high = player.transform.position.y;
+        Vector3 tragetPosition = new Vector3(0,high+3f,0) + offset;
+        Vector3 pos = Camera.main.WorldToViewportPoint(tragetPosition);
+        //Debug.Log(pos);
+        //if (pos.y > 0.5f)
+        //{
+        //    pos.y = 0.5f;
+        //    tragetPosition = Camera.main.ViewportToWorldPoint(pos);
+        //}
+
+        //Debug.Log(tragetPosition);
+        
         Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, smoothSpeed * Time.fixedDeltaTime);//러프 특징때문에 괜찮은가?
         transform.position = smoothPosition;
+        //transform.position = tragetPosition;
     }
 }
