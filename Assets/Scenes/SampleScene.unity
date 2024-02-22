@@ -844,7 +844,7 @@ MonoBehaviour:
   player: {fileID: 883596407}
   Top: {x: 0, y: 0}
   gameobject: {fileID: 0}
-  smoothSpeed: 1
+  smoothSpeed: 10
   high: 0
   ratio: 0.3
 --- !u!114 &519420034
@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ecab2424d3a5143b20583c191bc125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 8
   dragPower: 0
   scale: 0.5
   isTouchBottom: 0
@@ -1357,7 +1357,7 @@ Animator:
   m_GameObject: {fileID: 883596400}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b1330d3b4a56aeb41870b8ca64b2d690, type: 2}
+  m_Controller: {fileID: 9100000, guid: e95b675aac595eb45a5b8cb8ade74234, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1678,7 +1678,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1323361462
 SpriteRenderer:
   m_ObjectHideFlags: 0

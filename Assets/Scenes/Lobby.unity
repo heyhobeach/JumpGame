@@ -371,8 +371,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Option
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
-  m_sharedMaterial: {fileID: 6116367637333104078, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
+  m_sharedMaterial: {fileID: -3597279744648040422, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -689,8 +689,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Skin
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
-  m_sharedMaterial: {fileID: 6116367637333104078, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
+  m_sharedMaterial: {fileID: -3597279744648040422, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -823,8 +823,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
-  m_sharedMaterial: {fileID: 6116367637333104078, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
+  m_sharedMaterial: {fileID: -3597279744648040422, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1410,8 +1410,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Achivement
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
-  m_sharedMaterial: {fileID: 6116367637333104078, guid: 2c044685479324c4583b1df54bd381d1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
+  m_sharedMaterial: {fileID: -3597279744648040422, guid: ed49cea53518dc642a9bd56115060ad0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1435,7 +1435,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.85
+  m_fontSize: 30.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -48,7 +48,7 @@ public class CameraSet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Camera.main.WorldToViewportPoint(player.transform.position).y>0.3)//0.3보다 크다면
+        if (Camera.main.WorldToViewportPoint(player.transform.position).y>ratio)//0.3보다 크다면
         {
             follow();
         }
@@ -57,7 +57,7 @@ public class CameraSet : MonoBehaviour
       private void Update()
       {
         Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
-        Debug.Log(Top);
+        // Debug.Log(Top);
         // Debug.Log(CheackObjectInCamera(gameobject));
     //    Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.));
     //    bottom = -Top;

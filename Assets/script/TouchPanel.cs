@@ -17,7 +17,7 @@ public class TouchPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         }
     }
 
-    public enum InputState { None, Touching, Touch, Drag, Hold }//case 에 넣으려고 열거형
+    public enum InputState { None, Touching, Dragging, Touch, Drag, Hold }//case 에 넣으려고 열거형
     public InputState inputState { get; private set; } = InputState.None;//초기화 시키는것
     public Vector2 dir { get; private set; }//초기화와 대입 public get, private set
 
@@ -30,7 +30,7 @@ public class TouchPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
         while(true)
         {
-            yield return new WaitUntil(() => inputState != InputState.None && inputState != InputState.Touching);//터치나 드래그중, 홀드때가 아닐때는 yield return으로 나가고 아니면 아래 문장 실행
+            yield return new WaitUntil(() => inputState != InputState.None && inputState != InputState.Touching && inputState != InputState.Dragging);//터치나 드래그중, 홀드때가 아닐때는 yield return으로 나가고 아니면 아래 문장 실행
             inputState = InputState.None;//터치중이 아닐때 상태를 none으로 표시
         }
     }
@@ -38,6 +38,7 @@ public class TouchPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnBeginDrag(PointerEventData eventData)
     {
         if(pointerId != eventData.pointerId) return;//입력된 값이 다르면 종료
+        inputState = InputState.Dragging;
         // Debug.Log("DragBegin");
     }
 
@@ -69,7 +70,7 @@ public class TouchPanel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(pointerId != eventData.pointerId) return;//입력된 값이 다르면 종료
+        if(pointerId != eventData.pointerId || inputState == InputState.Dragging) return;//입력된 값이 다르면 종료
         inputState = InputState.Touch;//상태가 터치로 표시
         Debug.Log("Touch");
     }
