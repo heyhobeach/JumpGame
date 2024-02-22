@@ -166,7 +166,7 @@ public class TestScript : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("Exit");
+        // Debug.Log("Exit");
         isTouchBottom = false;
         //side = false;
         isWallHit = false;
@@ -183,7 +183,7 @@ public class TestScript : MonoBehaviour
 
         }
 
-        Debug.Log(collision.gameObject.name);
+        // Debug.Log(collision.gameObject.name);
 
 
         if (collision.gameObject.GetComponentInChildren<ObjectManager>() != null)
@@ -282,7 +282,7 @@ public class TestScript : MonoBehaviour
             break;
             case TouchPanel.InputState.Drag:
                 if(!canTouch) break;
-                Debug.Log("드래그");
+                // Debug.Log("드래그");
                 IsTap = false;
                 canTap = true;
                 collsitonCount = 0;
@@ -361,7 +361,7 @@ public class TestScript : MonoBehaviour
                 dragCoolTime += Time.deltaTime;
                 if(dragCoolTime>1)
                 {
-                   Debug.Log("1초 지남"); ;
+                //    Debug.Log("1초 지남"); ;
                    canTouch=true;
                    dragCoolTime=0;
                 }
@@ -386,7 +386,7 @@ public class TestScript : MonoBehaviour
                     rg2D.gravityScale = scale;//중력설정
                     touchStart= true;
                     gravityCoolTime = 0;
-                    Debug.Log("충돌 없는 중력");
+                    // Debug.Log("충돌 없는 중력");
 
                 }
             }
