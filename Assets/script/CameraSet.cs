@@ -48,7 +48,7 @@ public class CameraSet : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Camera.main.WorldToViewportPoint(player.transform.position).y>0.3)//0.3보다 크다면
+        if (Camera.main.WorldToViewportPoint(player.transform.position).y>ratio)//0.3보다 크다면
         {
             follow();
         }
