@@ -547,6 +547,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestBackground2
       objectReference: {fileID: 0}
+    - target: {fileID: 7481299811727430332, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -749,7 +753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &519420029
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1181,7 +1185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &883596402
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1945,6 +1949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c71aeabc1a0184199442ffb91ca481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!4 &1553702705
 Transform:
   m_ObjectHideFlags: 0
@@ -2068,6 +2073,10 @@ PrefabInstance:
     - target: {fileID: 7028854640937249888, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
       propertyPath: m_Name
       value: TestBackground3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7481299811727430332, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2602,6 +2611,10 @@ PrefabInstance:
     - target: {fileID: 7028854640937249888, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
       propertyPath: m_Name
       value: TestBackground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7481299811727430332, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

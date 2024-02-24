@@ -42,7 +42,7 @@ public class CameraSet : MonoBehaviour
     {
         //Screen.SetResolution(1848, 2960, true);
         cameraInstance = this;
-        setupCamera();
+        // setupCamera();
         //Screen.SetResolution(1080, 2340, true);//표기되어있는 해상도
         //Screen.SetResolution(924, 1480 , true);
     }

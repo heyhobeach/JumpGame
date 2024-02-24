@@ -7,10 +7,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-class PlayerData//json으로 변환할때 클래스 형식으로 변환 하려고
+struct PlayerData//json으로 변환할때 클래스 형식으로 변환 하려고
 {
     public float highScore;
-    Sprite sprite;
+    public Sprite[] mapSprites;
+    public Animation playerAni;
 }
 
 public class GameManager : MonoBehaviour
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
     public GameObject confirmCanvas { get; private set; }
     public GameObject gameOverCanvas { get; private set; }
     public GameObject CountDownCanvas { get; private set; }
-
+    
     void Awake() 
     {
         if(instance != null)
@@ -134,13 +135,19 @@ public class GameManager : MonoBehaviour
     public static void Pause() => Time.timeScale = 0; //일시정지 함수
     public static void Play() => Time.timeScale = 1; // 재시작 함수
 
-    public static void LoadScene(string sceneName, EscapeOption escapeOption = null) //씬 로드 함수
+    public static void LoadScene(string sceneName, EscapeOption escapeOption = null, CameraTest.CameraPreSet cameraPreSet = CameraTest.CameraPreSet.SET1) //씬 로드 함수
     {
         if(Time.timeScale != 1) GameManager.Play();
-        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
-        if(escapeOption != null) ao.completed += (x)=>{ GameManager.instance.escapeEvent = escapeOption; };
+        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        if(escapeOption != null) ao.completed += (x)=>{
+            Scene? temp = null;
+            try { temp = SceneManager.GetSceneAt(2); } catch {}
+            if(temp != null)SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(1));
+            CameraTest.cameraPreSet = cameraPreSet;
+            GameManager.instance.escapeEvent = escapeOption; 
+        };
     }
-    public static void Retry() => LoadScene("SampleScene", new PauseMenu()); //재시작 함수
-    public static void Lobby() => LoadScene("Lobby", new AppQuit());//로비로 돌아가는함수
+    public static void Retry() => LoadScene("SampleScene", new PauseMenu(), CameraTest.CameraPreSet.SET2); //재시작 함수
+    public static void Lobby() => LoadScene("Lobby", new AppQuit(), CameraTest.CameraPreSet.SET1);//로비로 돌아가는함수
 
 }

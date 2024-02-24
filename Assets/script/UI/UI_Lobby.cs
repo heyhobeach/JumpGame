@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UI_Lobby : MonoBehaviour
 {
-    [SerializeField] private Button AchivementButton;
     [SerializeField] private Button skinButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button startButton;
