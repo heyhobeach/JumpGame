@@ -149,5 +149,6 @@ public class GameManager : MonoBehaviour
     }
     public static void Retry() => LoadScene("SampleScene", new PauseMenu(), CameraTest.CameraPreSet.SET2); //재시작 함수
     public static void Lobby() => LoadScene("Lobby", new AppQuit(), CameraTest.CameraPreSet.SET1);//로비로 돌아가는함수
+    public static void Skin() => LoadScene("Skin", new BackToLobby(), CameraTest.CameraPreSet.SET1);//로비로 돌아가는함수
 
 }

@@ -21,7 +21,7 @@ public class CameraTest : MonoBehaviour
     public float cameraSetTime;
 
     private Dictionary<CameraPreSet, CameraSetParameter> keyValuePairs = new();
-    public enum CameraPreSet { SET1, SET2 }
+    public enum CameraPreSet { SET1, SET2, SET3 }
     private struct CameraSetParameter
     {
         public Vector3 bgCameraPosition;
@@ -60,6 +60,7 @@ public class CameraTest : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         keyValuePairs.Add(CameraPreSet.SET1, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, -3.5f, -10), 5, 2.25f));
         keyValuePairs.Add(CameraPreSet.SET2, new CameraSetParameter(new Vector3(0, 0, -10), new Vector3(0, 0, -10), 5, 5));
+        keyValuePairs.Add(CameraPreSet.SET3, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, -2.5f, -10), 5, 5));
     }
 
     void Start()

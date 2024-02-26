@@ -11,6 +11,7 @@ public class UI_Lobby : MonoBehaviour
 
     void Awake()
     {
+        skinButton.onClick.AddListener(GameManager.Skin);
         optionButton.onClick.AddListener(new OptionMenu());
         startButton.onClick.AddListener(GameManager.Retry);
     }
