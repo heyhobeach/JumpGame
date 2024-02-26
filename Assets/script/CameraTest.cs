@@ -46,7 +46,8 @@ public class CameraTest : MonoBehaviour
         set
         {
             m_cameraPreSet = value;
-            CameraTest.instance.StartCoroutine(CameraTest.instance.CameraSetting(CameraTest.instance.cameraSetTime));
+            if(CameraTest.instance.coroutine != null) CameraTest.instance.StopCoroutine(CameraTest.instance.coroutine);
+            CameraTest.instance.coroutine = CameraTest.instance.StartCoroutine(CameraTest.instance.CameraSetting(CameraTest.instance.cameraSetTime));
         }
     }
 
@@ -69,6 +70,8 @@ public class CameraTest : MonoBehaviour
         GameManager.LoadScene("Lobby", new AppQuit());
     }
 
+    private Coroutine coroutine;
+
     private IEnumerator CameraSetting(float time)
     {
         float t = 0;
@@ -85,6 +88,7 @@ public class CameraTest : MonoBehaviour
             playerCamera.orthographicSize = Mathf.Lerp(plcs, keyValuePairs[cameraPreSet].plCameraSize, t / time);
             yield return null;
         }
+        coroutine = null;
         yield break;
     }
 }
