@@ -25,7 +25,8 @@ public class CameraTest : MonoBehaviour
     private struct CameraSetParameter
     {
         public Vector3 bgCameraPosition;
-        public Vector3 plCameraPosition;
+        private Vector3 plCameraPosition;
+        public Vector3 PlCameraPosition { get { return bgCameraPosition + plCameraPosition; } }
         public float bgCameraSize;
         public float plCameraSize;
 
@@ -58,9 +59,9 @@ public class CameraTest : MonoBehaviour
         }
         instance= this;
         DontDestroyOnLoad(this.gameObject);
-        keyValuePairs.Add(CameraPreSet.SET1, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, -3.5f, -10), 5, 2.25f));
+        keyValuePairs.Add(CameraPreSet.SET1, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, -1, -10), 5, 2.25f));
         keyValuePairs.Add(CameraPreSet.SET2, new CameraSetParameter(new Vector3(0, 0, -10), new Vector3(0, 0, -10), 5, 5));
-        keyValuePairs.Add(CameraPreSet.SET3, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, -2.5f, -10), 5, 5));
+        keyValuePairs.Add(CameraPreSet.SET3, new CameraSetParameter(new Vector3(0, -2.5f, -10), new Vector3(0, 0, -10), 5, 5));
     }
 
     void Start()
@@ -79,7 +80,7 @@ public class CameraTest : MonoBehaviour
         {
             t += Time.fixedUnscaledDeltaTime;
             backGroundCamera.transform.position = Vector3.Lerp(bgcp, keyValuePairs[cameraPreSet].bgCameraPosition, t / time);
-            playerCamera.transform.position = Vector3.Lerp(plcp, keyValuePairs[cameraPreSet].plCameraPosition, t / time);
+            playerCamera.transform.position = Vector3.Lerp(plcp, keyValuePairs[cameraPreSet].PlCameraPosition, t / time);
             backGroundCamera.orthographicSize = Mathf.Lerp(bgcs, keyValuePairs[cameraPreSet].bgCameraSize, t / time);
             playerCamera.orthographicSize = Mathf.Lerp(plcs, keyValuePairs[cameraPreSet].plCameraSize, t / time);
             yield return null;
