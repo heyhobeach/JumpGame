@@ -136,16 +136,15 @@ public class GameManager : MonoBehaviour
     public static void Play() => Time.timeScale = 1; // 재시작 함수
 
     private static Scene? scene = null;
-    private static int sceneIdx = 0;
     public static void LoadScene(string sceneName, EscapeOption escapeOption = null, CameraTest.CameraPreSet cameraPreSet = CameraTest.CameraPreSet.SET1) //씬 로드 함수
     {
+        if(scene == null && SceneManager.GetActiveScene().name.Equals("SampleScene")) scene = SceneManager.GetActiveScene();
+
         if(Time.timeScale != 1) GameManager.Play();
-        if(scene == null) scene = SceneManager.GetSceneAt(0);
-        else sceneIdx = 1;
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         if(escapeOption != null) ao.completed += (x)=>{
             if(scene != null) SceneManager.UnloadSceneAsync((Scene) scene);
-            scene = SceneManager.GetSceneAt(sceneIdx);
+            if(SceneManager.GetActiveScene().name.Equals("SampleScene")) scene = SceneManager.GetActiveScene();
             CameraTest.cameraPreSet = cameraPreSet;
             GameManager.instance.escapeEvent = escapeOption; 
         };

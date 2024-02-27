@@ -845,7 +845,7 @@ MonoBehaviour:
   cameraZpos: 0
   offset: {x: 0, y: 0, z: -10}
   bottom: {x: 0, y: 0}
-  player: {fileID: 0}
+  player: {fileID: 883596409}
   Top: {x: 0, y: 0}
   gameobject: {fileID: 0}
   smoothSpeed: 10
@@ -1363,7 +1363,7 @@ MonoBehaviour:
   scale: 1
   isTouchBottom: 0
   reflectTouch: 0
-  touchStart: 1
+  isGravity: 1
   isStay: 0
   isWallHit: 0
   reflectCnt: 0
