@@ -477,12 +477,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1497013429}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07ecab2424d3a5143b20583c191bc125, type: 3}
+  m_Script: {fileID: 11500000, guid: d98a6873bbf309b4eaad566f62c804f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 6
   dragPower: 0
-  scale: 0.5
+  scale: 1
   isTouchBottom: 0
   reflectTouch: 0
   touchStart: 1
