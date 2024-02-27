@@ -17,9 +17,11 @@ public class CameraSet : MonoBehaviour
 
     public GameObject gameobject;
 
+    public Camera _camera;
+
     [Range(0, 10)]
     public float smoothSpeed=2;//카메라가 따라오는속도 조절하는변수
-    public float high = 0;
+    public float high;
 
     [Range(0, 1)]
     public float ratio = 0.3f;
@@ -28,11 +30,14 @@ public class CameraSet : MonoBehaviour
     void Start()
     {
         cameraZpos = transform.position.z;
-        Vector2 Right = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
+        Vector2 Right = _camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height * 0.5f));
         Vector2 Left = -Right;
-        Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
+        Top = _camera.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
         bottom = -Top;
         startYpos = transform.position.y;
+        high = player.transform.position.y;
+        Debug.Log("high" + high);
+        Debug.Log("카메라 스크립트" + bottom);
         //limitPos = Bottom.y - cameraZpos * ratio;
     }
 
@@ -42,6 +47,8 @@ public class CameraSet : MonoBehaviour
     {
         //Screen.SetResolution(1848, 2960, true);
         cameraInstance = this;
+        //StartCoroutine(NewFllow());
+        //transform.position = new Vector3(0, -0.74f, -10);
         // setupCamera();
         //Screen.SetResolution(1080, 2340, true);//표기되어있는 해상도
         //Screen.SetResolution(924, 1480 , true);
@@ -65,7 +72,7 @@ public class CameraSet : MonoBehaviour
     //    Debug.Log(bottom);
       }
 
-    private void setupCamera()
+    private void setupCamera()//래터 박스 
     {
         //float targetWidthAspect = 6f;//가로비율
         //float targetHightAspect = 19f;//세로비율
@@ -111,16 +118,74 @@ public class CameraSet : MonoBehaviour
         return isIn;
     }
 
+    IEnumerator NewFllow()
+    {
+
+        float duration = 0.5f;
+        float delta = 0f;
+        while (true)
+        {
+            Debug.Log("카메라 코루틴 안");
+
+            while (delta <= duration)
+            {
+                if (high < player.transform.position.y)
+                {
+                    high = player.transform.position.y;
+                    Debug.Log("카메라 최고높이");
+                }
+                else
+                {
+                    Debug.Log("카메라 루프 종료");
+                    break;
+                }
+                float x = delta / duration;
+                x=(x == 1 ? 1 : 1 - Mathf.Pow(2, -10 * x));
+                Vector3 tragetPosition = new Vector3(0, high, 0) + offset;
+                Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, x);//러프 특징때문에 괜찮은가?
+                transform.position = smoothPosition;
+                yield return null;
+            }
+            delta = 0;
+
+        }
+        
+    }
+
     // Update is called once per frame
-    public void follow()
+    public void follow()//해당 함수는 코루틴으로 변경가능 다만 현재 이 스크립트에서 fixedupdate에서 한개의 함수만 돌아가므로 이렇게 작성함
     {
         //transform.position = player.transform.position+offset;
-        if (high < player.transform.position.y)
+        float duration = 1f;
+        float delta = 0f;
+        if (high < player.transform.position.y)//이 부분만 카메라 따라가야함
         {
+            Debug.Log("카메라 이동");
             high = player.transform.position.y;
+            while(delta <= duration)
+            {
+                float x = delta / duration;
+                //x=(x==1?1:1 - Mathf.Pow(2, -10 * x));//원하는 보간 함수 공식 사용
+                x=Mathf.Sqrt(1 - Mathf.Pow(x - 1, 2));
+                Vector3 targetPosition = new Vector3(0, high+1.5f, 0) + offset;
+                Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, x);
+                if (transform.position.y > smoothPosition.y)//시작부터 캐릭터를 잡아서 화면 내려가는것을 방지하기 위함
+                {
+                    break;
+                }
+                transform.position = smoothPosition;
+                delta += Time.deltaTime;
+                continue;
+            }
+            delta = 0;
+
         }
-        Vector3 tragetPosition = new Vector3(0,high,0) + offset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, smoothSpeed * Time.fixedDeltaTime);//러프 특징때문에 괜찮은가?
-        transform.position = smoothPosition;
+        else//이렇게 해도 되려나
+        {
+            return;
+        }
+        //Vector3 tragetPosition = new Vector3(0,high,0) + offset;
+        //Vector3 smoothPosition = Vector3.Lerp(transform.position, tragetPosition, smoothSpeed * Time.fixedDeltaTime);//러프 특징때문에 괜찮은가?
+        //transform.position = smoothPosition;
     }
 }

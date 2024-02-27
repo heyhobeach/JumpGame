@@ -78,7 +78,7 @@ public class TestScript : MonoBehaviour
     float result = 0;
 
 
-
+    
     private float dragCoolTime=0;//쿨타임 관련 변수
     private float gravityCoolTime=0;
 
@@ -127,6 +127,8 @@ public class TestScript : MonoBehaviour
 
 
         transform.position = CameraSet.cameraInstance.bottom;
+        position.y = CameraSet.cameraInstance.bottom.y + 1;
+        Debug.Log("테스트 스크립트 "+position);
         //touchPosx = transform.localPosition.x;
         //screenYpos = CameraSet.limitPos;//screenYpos로 교체 하면 됨 해당 위치는 캐릭터의 위치가 항상 이쯤에 있을거임 이거보다 캐릭터가 더 위에있다면 카메라가 움직임
 
@@ -138,7 +140,7 @@ public class TestScript : MonoBehaviour
 
     private void Awake()
     {
-
+        
     }
 
 
@@ -173,12 +175,14 @@ public class TestScript : MonoBehaviour
         if (collision.gameObject.name=="left"||collision.gameObject.name == "right")
         {
             side = true;
+            anim.SetBool("IsJump", false);
            //StartCoroutine(Sliding(transform.position));//충돌 위치 
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         Debug.Log("Exit");
+        anim.SetBool("IsJump", true);
         isTouchBottom = false;
         //side = false;
         isWallHit = false;
@@ -315,6 +319,7 @@ public class TestScript : MonoBehaviour
 
                 rg2D.velocity = Vector2.zero;
                 rg2D.gravityScale = 0.0f;
+                gravityCoolTime = 0.0f; 
 
                 //Debug.Log(string.Format("side : {0} , {1} : {2}", side, Mathf.Sign(destination.x), Mathf.Sign(result)));
             if (side && Mathf.Sign(destination.x) != Mathf.Sign(result))//���̶� ���� ��ġ�϶�

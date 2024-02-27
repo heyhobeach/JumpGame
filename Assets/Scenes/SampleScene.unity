@@ -753,7 +753,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &519420029
 AudioListener:
   m_ObjectHideFlags: 0
@@ -845,9 +845,10 @@ MonoBehaviour:
   cameraZpos: 0
   offset: {x: 0, y: 0, z: -10}
   bottom: {x: 0, y: 0}
-  player: {fileID: 883596407}
+  player: {fileID: 883596409}
   Top: {x: 0, y: 0}
-  gameobject: {fileID: 0}
+  gameobject: {fileID: 1920214346}
+  _camera: {fileID: 519420031}
   smoothSpeed: 10
   high: 0
   ratio: 0.3
@@ -1177,7 +1178,7 @@ GameObject:
   - component: {fileID: 883596402}
   - component: {fileID: 883596405}
   - component: {fileID: 883596406}
-  - component: {fileID: 883596407}
+  - component: {fileID: 883596409}
   - component: {fileID: 883596408}
   m_Layer: 0
   m_Name: Player
@@ -1185,7 +1186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &883596402
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1247,7 +1248,7 @@ Transform:
   m_GameObject: {fileID: 883596400}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.006, y: 42.2, z: 0}
+  m_LocalPosition: {x: 0.006, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1325,32 +1326,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &883596407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883596400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07ecab2424d3a5143b20583c191bc125, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 8
-  dragPower: 0
-  scale: 0.5
-  isTouchBottom: 0
-  reflectTouch: 0
-  touchStart: 1
-  isStay: 0
-  isWallHit: 0
-  reflectCnt: 0
-  canTouch: 1
-  uiTouched: 0
-  canTap: 1
-  IsTap: 0
-  side: 0
 --- !u!95 &883596408
 Animator:
   serializedVersion: 5
@@ -1372,6 +1347,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &883596409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883596400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98a6873bbf309b4eaad566f62c804f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  dragPower: 0
+  scale: 1
+  isTouchBottom: 0
+  reflectTouch: 0
+  isGravity: 1
+  isStay: 0
+  isWallHit: 0
+  reflectCnt: 0
+  canTouch: 1
+  uiTouched: 0
+  canTap: 1
+  IsTap: 0
+  side: 0
 --- !u!4 &956727382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4973956551341803560, guid: 8e28d0e7f77f0944bacb882d53e232bf, type: 3}
