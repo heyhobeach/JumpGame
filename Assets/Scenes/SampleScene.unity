@@ -842,6 +842,8 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: -10}
   bottom: {x: 0, y: 0}
   player: {fileID: 883596407}
+  Top: {x: 0, y: 0}
+  gameobject: {fileID: 0}
   smoothSpeed: 1
   high: 0
   ratio: 0.3
@@ -1586,7 +1588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07ecab2424d3a5143b20583c191bc125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 6
   dragPower: 0
   scale: 0.5
   isTouchBottom: 0
@@ -1597,7 +1599,7 @@ MonoBehaviour:
   reflectCnt: 0
   canTouch: 1
   uiTouched: 0
-  isDrag: 0
+  canTap: 1
   IsTap: 0
   side: 0
 --- !u!95 &883596408
@@ -2065,7 +2067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1323361462
 SpriteRenderer:
   m_ObjectHideFlags: 0

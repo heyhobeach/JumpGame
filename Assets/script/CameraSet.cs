@@ -57,8 +57,8 @@ public class CameraSet : MonoBehaviour
       private void Update()
       {
         Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.height));
-        Debug.Log(Top);
-        Debug.Log(CheackObjectInCamera(gameobject));
+        //Debug.Log(Top);
+        //Debug.Log(CheackObjectInCamera(gameobject));
     //    Vector2 Top = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width * 0.5f, Screen.));
     //    bottom = -Top;
     //
@@ -111,6 +111,11 @@ public class CameraSet : MonoBehaviour
         return isIn;
     }
 
+    IEnumerator CameraCorrection()
+    {
+        yield return null;
+    }
+
     // Update is called once per frame
     public void follow()
     {
@@ -119,6 +124,7 @@ public class CameraSet : MonoBehaviour
         {
             high = player.transform.position.y;
         }//카메라 비율 high가 현재 화면에서 어느 위치인지 그리고 최대치를 설정함 비율 화면
+        //보간 값을 설정해서 준다면?
         //high = player.transform.position.y;
         Vector3 tragetPosition = new Vector3(0,high+3f,0) + offset;
         Vector3 pos = Camera.main.WorldToViewportPoint(tragetPosition);
