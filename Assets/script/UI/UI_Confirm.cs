@@ -21,7 +21,6 @@ public class UI_Confirm : PopUp
     public override void EscPopUp()
     {
         confirmButton.onClick.RemoveAllListeners();
-        this.gameObject.SetActive(false);
     }
 
     public void ConfirmSet(string info, Action action)
