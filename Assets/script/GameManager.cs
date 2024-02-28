@@ -7,10 +7,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-struct PlayerData//json으로 변환할때 클래스 형식으로 변환 하려고
+[Serializable]
+public class PlayerData//json으로 변환할때 클래스 형식으로 변환 하려고
 {
     public float highScore;
-    public Sprite[] mapSprites;
+    public MapSprites mapSprites;
+    [Serializable]
+    public struct MapSprites
+    {
+        Sprite baseMapSprite;
+        Sprite scrollMapSprite;
+    }
     public Animation playerAni;
 }
 
@@ -69,6 +76,8 @@ public class GameManager : MonoBehaviour
     public GameObject confirmCanvas { get; private set; }
     public GameObject gameOverCanvas { get; private set; }
     public GameObject CountDownCanvas { get; private set; }
+
+    public 
     
     void Awake() 
     {

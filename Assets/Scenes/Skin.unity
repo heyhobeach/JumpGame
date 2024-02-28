@@ -1504,14 +1504,14 @@ MonoBehaviour:
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
-    m_NormalTrigger: 
-    m_HighlightedTrigger: 
-    m_PressedTrigger: 
+    m_NormalTrigger: Nomal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
-    m_DisabledTrigger: 
+    m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 879704588}
-  toggleTransition: 1
+  toggleTransition: 0
   graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
