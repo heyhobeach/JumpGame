@@ -67,7 +67,7 @@ public class CameraTest : MonoBehaviour
 
     void Start()
     {
-        GameManager.LoadScene("Lobby", new AppQuit());
+        GameManager.Lobby();
     }
 
     private Coroutine coroutine;

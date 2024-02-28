@@ -135,18 +135,13 @@ public class GameManager : MonoBehaviour
     public static void Pause() => Time.timeScale = 0; //일시정지 함수
     public static void Play() => Time.timeScale = 1; // 재시작 함수
 
-    private static Scene? scene = null;
     public static void LoadScene(string sceneName, EscapeOption escapeOption = null, CameraTest.CameraPreSet cameraPreSet = CameraTest.CameraPreSet.SET1) //씬 로드 함수
     {
-        if(scene == null && SceneManager.GetActiveScene().name.Equals("SampleScene")) scene = SceneManager.GetActiveScene();
-
         if(Time.timeScale != 1) GameManager.Play();
-        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        if(escapeOption != null) ao.completed += (x)=>{
-            if(scene != null) SceneManager.UnloadSceneAsync((Scene) scene);
-            if(SceneManager.GetActiveScene().name.Equals("SampleScene")) scene = SceneManager.GetActiveScene();
+        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+        ao.completed += (x)=>{
+            if(escapeOption != null) GameManager.instance.escapeEvent = escapeOption; 
             CameraTest.cameraPreSet = cameraPreSet;
-            GameManager.instance.escapeEvent = escapeOption; 
         };
     }
     public static void Retry() => LoadScene("SampleScene", new PauseMenu(), CameraTest.CameraPreSet.SET2); //재시작 함수
