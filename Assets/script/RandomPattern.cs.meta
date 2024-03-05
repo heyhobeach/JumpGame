@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/script/CameraTest.cs.meta
-guid: aa1231bc9c36d404c928164a7f5bc565
-========
-guid: d8d7a6b83b504ae4f9d0a0b3f59c2ff4
->>>>>>>> UI_TEST:Assets/Animation/UI/Skin Toggle/Toggle_Check.cs.meta
+guid: 63e49a45feef0db43ab2a0dbc1e3be42
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
